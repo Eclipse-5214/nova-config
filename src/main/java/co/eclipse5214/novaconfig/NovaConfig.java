@@ -15,6 +15,7 @@ public class NovaConfig implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
+		TickScheduler.register();
 
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
 			Command<FabricClientCommandSource> cmd = context -> {
