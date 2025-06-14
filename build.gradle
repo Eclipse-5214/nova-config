@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+	id "org.jetbrains.kotlin.jvm" version "2.1.21"
 }
 
 version = project.mod_version
@@ -16,15 +17,6 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
-
-	maven {
-		name = "Terraformers"
-		url = "https://maven.terraformersmc.com/"
-	}
-
-	maven{
-		url = "https://repo.essential.gg/repository/maven-public"
-	}
 }
 
 dependencies {
@@ -35,13 +27,7 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-	// Mod menue
-	modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
-
-	// Elementa
-	implementation(include("gg.essential:elementa:$elementa_version"))
-	modImplementation(include("gg.essential:universalcraft-1.21.5-fabric:$uc_version"))
+	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 }
 
 processResources {
@@ -54,6 +40,12 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 21
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+	kotlinOptions {
+		jvmTarget = 21
+	}
 }
 
 java {

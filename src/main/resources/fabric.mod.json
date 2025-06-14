@@ -15,8 +15,11 @@
 	"icon": "assets/nova-config/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"client": [
-			"co.eclipse5214.novaconfig.NovaConfig"
+		"cleint": [
+			{
+				"value": "co.eclipse5214.novaconfig.NovaConfig",
+				"adapter": "kotlin"
+			}
 		]
 	},
 	"mixins": [
@@ -26,7 +29,8 @@
 		"fabricloader": ">=0.16.14",
 		"minecraft": "~1.21.5",
 		"java": ">=21",
-		"fabric-api": "*"
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
 	},
 	"suggests": {
 		"modmenu": "*"
