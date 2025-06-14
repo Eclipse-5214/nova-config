@@ -23,5 +23,7 @@ object NovaConfig : ClientModInitializer {
 			}
 			dispatcher.register(ClientCommandManager.literal("nova-test").executes(cmd))
 		}
+
+		println("[NovaConfig] Client initializer ran")
 	}
 }

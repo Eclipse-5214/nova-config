@@ -15,7 +15,7 @@
 	"icon": "assets/nova-config/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"cleint": [
+		"client": [
 			{
 				"value": "co.eclipse5214.novaconfig.NovaConfig",
 				"adapter": "kotlin"
