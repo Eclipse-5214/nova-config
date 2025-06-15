@@ -5,16 +5,16 @@ import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
 import gg.essential.universal.UMatrixStack
 import gg.essential.elementa.dsl.*
+import net.minecraft.client.gl.ShaderProgram
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 
 class ConfigUIScreen : Screen(Text.of("Config UI")) {
     private val root = Window(ElementaVersion.V2)
     private val background = UIRoundedRectangle(10f)
     private val card = UIRoundedRectangle(10f)
-
-    val shader: ShaderEff
 
     init {
         background
