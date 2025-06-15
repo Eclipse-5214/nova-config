@@ -8,5 +8,6 @@ data class Toggle(
     val description: String,
     val default: Boolean? = false
 ) : ConfigElement(
-    id = configName
+    id = configName,
+    value = default
 )

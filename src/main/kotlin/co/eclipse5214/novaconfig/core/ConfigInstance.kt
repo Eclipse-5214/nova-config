@@ -26,4 +26,10 @@ class ConfigInstance(
     fun resetUI() {
         ui = null
     }
+
+    operator fun get(key: String): Any? =
+        config.categories
+            .flatMap { it.elements }
+            .find { it.id == key }
+            ?.value
 }
