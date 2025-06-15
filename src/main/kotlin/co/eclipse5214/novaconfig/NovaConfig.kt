@@ -8,10 +8,13 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.client.MinecraftClient
 import co.eclipse5214.novaconfig.example.myConfig
+import co.eclipse5214.novaconfig.utils.TickScheduler
 
 
 object NovaConfig : ClientModInitializer {
 	override fun onInitializeClient() {
+		TickScheduler.register()
+
 		ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
 			val cmd = Command<FabricClientCommandSource> { context ->
 				//val client = MinecraftClient.getInstance()
