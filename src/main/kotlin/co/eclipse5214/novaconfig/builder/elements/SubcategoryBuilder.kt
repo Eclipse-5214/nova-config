@@ -1,13 +1,13 @@
 package co.eclipse5214.novaconfig.builder.elements
 
-import co.eclipse5214.novaconfig.model.elements.Subcatagory
+import co.eclipse5214.novaconfig.model.elements.Subcategory
 
-class SubcatagoryBuilder {
+class SubcategoryBuilder {
     lateinit var configName: String
     lateinit var name: String
 
-    fun build(): Subcatagory {
-        return Subcatagory(
+    fun build(): Subcategory {
+        return Subcategory (
             configName = configName,
             name = name,
         )
