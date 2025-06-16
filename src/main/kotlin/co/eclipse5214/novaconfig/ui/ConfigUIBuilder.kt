@@ -16,7 +16,7 @@ import java.awt.Color
 class ConfigUIBuilder(private val config: Config) {
     fun build(): ConfigUI {
         return object : ConfigUI {
-            override val screen = ConfigUIScreen() // Attach a proper WindowScreen instance
+            override val screen = ConfigUIScreen(config) // Attach a proper WindowScreen instance
 
             override fun show() {
                 chatutils.clientMsg("Showing config screen", false)
