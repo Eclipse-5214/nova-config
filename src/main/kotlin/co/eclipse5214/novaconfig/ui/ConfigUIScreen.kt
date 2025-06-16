@@ -1,6 +1,7 @@
 package co.eclipse5214.novaconfig.ui
 
 import co.eclipse5214.novaconfig.model.Config
+import co.eclipse5214.novaconfig.ui.NovaPalette.withAlpha
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
@@ -16,33 +17,17 @@ import java.awt.Color
 
 class ConfigUIScreen (private val config: Config) : Screen(Text.of(config.name)) {
     private val root = Window(ElementaVersion.V2)
-    private val bgOutline = UIRoundedRectangle(10f)
-    private val background = UIRoundedRectangle(10f)
-    private val cardOutline = UIRoundedRectangle(10f)
-    private val card = UIRoundedRectangle(10f)
+    private val list = UIBlock()
+    private val card = UIBlock()
     private val title = UIText(config.name)
 
     init {
-        bgOutline
-            .setWidth(PixelConstraint(602f))
-            .setHeight(PixelConstraint(352f))
-            .setX(CenterConstraint())
-            .setY(CenterConstraint())
-            .setColor(NovaPalette.Sapphire)
-            .setChildOf(root)
-        background
+        list
             .setWidth(PixelConstraint(600f))
             .setHeight(PixelConstraint(350f))
             .setX(CenterConstraint())
             .setY(CenterConstraint())
-            .setColor(NovaPalette.Base)
-            .setChildOf(root)
-        cardOutline
-            .setWidth(PixelConstraint(477f))
-            .setHeight(PixelConstraint(352f))
-            .setX(CenterConstraint() + PixelConstraint(63f))
-            .setY(CenterConstraint())
-            .setColor(NovaPalette.Mauve)
+            .setColor(NovaPalette.Base.withAlpha(150))
             .setChildOf(root)
         card
             .setWidth(PixelConstraint(475f))

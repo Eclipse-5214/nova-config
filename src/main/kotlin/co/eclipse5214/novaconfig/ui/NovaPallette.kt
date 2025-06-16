@@ -9,6 +9,10 @@ object NovaPalette {
         theme = newTheme
     }
 
+    fun Color.withAlpha(alpha: Int): Color {
+        return Color(red, green, blue, alpha) // Convert alpha from 0-1 range to 0-255
+    }
+
     val Rosewater get() = theme["Rosewater"] ?: Color.decode("#f2d5cf")
     val Flamingo  get() = theme["Flamingo"]  ?: Color.decode("#eebebe")
     val Pink      get() = theme["Pink"]      ?: Color.decode("#f4b8e4")
