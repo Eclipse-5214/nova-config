@@ -49,9 +49,9 @@ class ConfigUIScreen (private val config: Config) : Screen(Text.of(config.name))
 
         config.categories.forEachIndexed { index, category ->
             val button = UIRoundedRectangle(10f) // Rounded corners
-                .setWidth(PixelConstraint(180f))
-                .setHeight(PixelConstraint(40f))
-                .setX(PixelConstraint(20f)) // Sidebar positioning
+                .setWidth(PixelConstraint(100f))
+                .setHeight(PixelConstraint(20f))
+                .setX(CenterConstraint() - PixelConstraint(240f)) // Sidebar positioning
                 .setY(PixelConstraint(index * 50f + 20f)) // Stack buttons vertically
                 .setColor(NovaPalette.Surface1)
                 .setChildOf(root)
