@@ -15,7 +15,7 @@ class ToggleUIBuilder {
                 width = 425.pixels()
                 height = 60.pixels()
                 x = CenterConstraint()
-                y = CenterConstraint()
+                y = PixelConstraint(20f)
             }
             .setColor(NovaPalette.Surface0)
             .setChildOf(root)

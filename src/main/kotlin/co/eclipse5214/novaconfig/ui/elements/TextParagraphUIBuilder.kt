@@ -13,9 +13,9 @@ class TextParagraphUIBuilder {
         val textParagraphContainer = UIRoundedRectangle(6f)
             .constrain {
                 width = 425.pixels()
-                height = 80.pixels()
+                height = 85.pixels()
                 x = CenterConstraint()
-                y = CenterConstraint()
+                y = PixelConstraint(20f)
             }
             .setColor(NovaPalette.Surface0)
             .setChildOf(root)

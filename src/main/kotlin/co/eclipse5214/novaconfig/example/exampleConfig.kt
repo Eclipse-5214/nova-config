@@ -15,11 +15,13 @@ val myConfig = NovaApi.createConfig("example") {
     }
 
     category("Example") {
+        subcategory {
+            configName = "" }
         textparagraph {
             configName = "GeneralTitle"
             name = "§dGeneral Settings"
             description = "welcome to general settings for configuring general settings\n" +
-                          "This is a reallly long line of text to test text wrapping btw the last line was split with a \\n aasdl;fajsdlfkajsdklf jaskldfjaskl fjasldjflasjdlfkaslfk jasldkfjasl;dfjk asldkfjasl;k djfasl;kdfj;askldjfals kdfjal;skdfjaskl;dfjaskl; dfjaskldjfakl;sdf jaskldjfakl;s djfaskl;dfjaskl ;dfjaskl;dfjasdf j;asdklfja;sldkfja s;dlkfjas;dlkfjasdl; fkjasd;lfas ldk;fjasdlfkj"
+                          "This is a reallly long line of text to test text wrapping btw the last line was split with a \\n. The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds."
         }
 
         toggle {
@@ -33,7 +35,22 @@ val myConfig = NovaApi.createConfig("example") {
             configName = "something_else"
             name = "Do Something Else"
             description = "This does something else"
+            default = false
+        }
+
+        textparagraph {
+            configName = "GeneralTitle"
+            name = "§dGeneral Settings"
+            description = "welcome to general settings for configuring general settings\n" +
+                    "This is a reallly long line of text to test text wrapping btw the last line was split with a \\n. The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds."
+        }
+
+        toggle {
+            configName = "a_third_thing"
+            name = "A Third Thing"
+            description = "This does a third thing"
             default = true
         }
+
     }
 }
