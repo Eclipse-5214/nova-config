@@ -15,8 +15,7 @@ val myConfig = NovaApi.createConfig("example") {
     }
 
     category("Example") {
-        subcategory {
-            configName = "" }
+        subcategory("General")
         textparagraph {
             configName = "GeneralTitle"
             name = "§dGeneral Settings"

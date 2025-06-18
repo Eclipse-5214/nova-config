@@ -1,8 +1,10 @@
 package co.eclipse5214.novaconfig.ui
 
 import co.eclipse5214.novaconfig.model.ConfigCategory
+import co.eclipse5214.novaconfig.model.elements.Subcategory
 import co.eclipse5214.novaconfig.model.elements.TextParagraph
 import co.eclipse5214.novaconfig.model.elements.Toggle
+import co.eclipse5214.novaconfig.ui.elements.SubcategoryUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.TextParagraphUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.ToggleUIBuilder
 import gg.essential.elementa.UIComponent
@@ -50,12 +52,14 @@ class CategoryUIBuilder {
             val elementHeight = when (element) {
                 is Toggle -> 60f
                 is TextParagraph -> 85f
+                is Subcategory -> 10f
                 else -> 50f // Default fallback
             }
 
             val uiComponent = when (element) {
                 is Toggle -> ToggleUIBuilder().build(scroller, element)
                 is TextParagraph -> TextParagraphUIBuilder().build(scroller, element)
+                is Subcategory -> SubcategoryUIBuilder().build(scroller, element)
                 else -> null
             }
 
