@@ -19,12 +19,6 @@ object NovaConfig : ClientModInitializer {
 
 		ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
 			val cmd = Command<FabricClientCommandSource> { context ->
-				//val client = MinecraftClient.getInstance()
-				//client.execute {
-				//	client.setScreen(GUI())
-				//}
-				chatutils.clientMsg("§d[Nova] §bCommand executed", false)
-
 				myConfig.open()
 
 				chatutils.clientMsg("§d[Nova] §bValue of show_map is ${myConfig["show_map"]}", false)
@@ -33,7 +27,5 @@ object NovaConfig : ClientModInitializer {
 			}
 			dispatcher.register(ClientCommandManager.literal("nova-test").executes(cmd))
 		}
-
-		println("[NovaConfig] Client initializer ran")
 	}
 }
