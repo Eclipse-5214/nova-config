@@ -22,6 +22,8 @@ class ConfigUIScreen (private val config: Config) : Screen(Text.of(config.name))
     private val title = UIText(config.name)
 
     init {
+        //background card
+
         list
             .setWidth(PixelConstraint(600f))
             .setHeight(PixelConstraint(350f))
@@ -42,6 +44,27 @@ class ConfigUIScreen (private val config: Config) : Screen(Text.of(config.name))
             .setY(CenterConstraint() - PixelConstraint(150f))
             .setChildOf(root)
             .setTextScale((1.5f).pixels())
+
+        // Buttons
+
+        config.categories.forEachIndexed { index, category ->
+            val button = UIRoundedRectangle(10f) // Rounded corners
+                .setWidth(PixelConstraint(180f))
+                .setHeight(PixelConstraint(40f))
+                .setX(PixelConstraint(20f)) // Sidebar positioning
+                .setY(PixelConstraint(index * 50f + 20f)) // Stack buttons vertically
+                .setColor(NovaPalette.Surface1)
+                .setChildOf(root)
+
+            val label = UIText(category.name)
+                .setX(CenterConstraint())
+                .setY(CenterConstraint())
+                .setChildOf(button)
+
+            //button.onClick {
+                //loadCategory(category) // Function to update UI with selected category
+            //}
+        }
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
