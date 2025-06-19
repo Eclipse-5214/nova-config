@@ -51,7 +51,7 @@ class ConfigUIBuilder(private val config: Config) {
                             x = CenterConstraint() + 63.pixels()
                             y = CenterConstraint()
                         }
-                        .setColor(NovaPalette.Surface0)
+                        .setColor(NovaPalette.Base)
                         .setChildOf(window)
 
                     title
@@ -103,6 +103,10 @@ class ConfigUIBuilder(private val config: Config) {
                                     lbl.setColor(if (cat == selectedCategory) NovaPalette.Mauve else Color.WHITE)
                                 }
                                 chatutils.clientMsg("§d[Nova] §b${category.name} pressed!", false)
+
+                                // **Remove previous category UI**
+                                card.clearChildren()
+
                                 CategoryUIBuilder().build(card, category)
                             }
                         }

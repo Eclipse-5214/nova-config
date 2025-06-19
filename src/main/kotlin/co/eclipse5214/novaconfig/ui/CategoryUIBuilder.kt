@@ -23,7 +23,7 @@ class CategoryUIBuilder {
                 x = CenterConstraint()
                 y = CenterConstraint()
             }
-            .setColor(NovaPalette.Surface1)
+            .setColor(Color(0,0,0,0))
             .effect(ScissorEffect())
             .setChildOf(root)
 
@@ -35,14 +35,6 @@ class CategoryUIBuilder {
                 y = SiblingConstraint()
             }
             .setChildOf(categoryContainer)
-
-        val title = UIText(category.name)
-            .constrain {
-                x = CenterConstraint()
-                y = CenterConstraint() - 150.pixels()
-            }
-            .setTextScale(1.2f.pixels())
-            .setChildOf(scroller)
 
         // Iterate through category elements and render toggles
         var yOffset =  20f // Start position

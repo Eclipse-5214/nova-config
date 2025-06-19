@@ -17,13 +17,24 @@ class SubcategoryUIBuilder {
                 x = CenterConstraint()
                 y = PixelConstraint(20f)
             }
-            .setColor(NovaPalette.Mauve)
+            .setColor(NovaPalette.Surface0)
             .setChildOf(root)
+
+        val SubcategoryBox = UIRoundedRectangle(6f)
+            .constrain {
+                width = 50.pixels()
+                height = 15.pixels()
+                x = CenterConstraint()
+                y = CenterConstraint()
+            }
+            .setColor(NovaPalette.Surface1)
+            .setChildOf(SubcategoryUnderline)
+
 
         val textParagraphTitle = UIText(subcategory.name)
             .constrain {
-                x = CenterConstraint() // Moves text to the left
-                y = PixelConstraint(7f)
+                x = CenterConstraint()
+                y = CenterConstraint()
             }
             .setTextScale(1.2f.pixels())
             .setChildOf(SubcategoryUnderline)
