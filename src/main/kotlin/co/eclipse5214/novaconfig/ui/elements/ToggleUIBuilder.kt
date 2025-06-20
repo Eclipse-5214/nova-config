@@ -80,7 +80,9 @@ class ToggleUIBuilder {
                 )
             }
 
-            TickScheduler.schedule(4) {
+            println("[Toggle] ${toggle.id} set to ${toggle.value}")
+
+            TickScheduler.schedule(4){
                 refresh()
             }
         }

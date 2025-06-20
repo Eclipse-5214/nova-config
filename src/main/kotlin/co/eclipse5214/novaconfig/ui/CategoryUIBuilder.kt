@@ -1,5 +1,6 @@
 package co.eclipse5214.novaconfig.ui
 
+import co.eclipse5214.novaconfig.model.Config
 import co.eclipse5214.novaconfig.model.ConfigCategory
 import co.eclipse5214.novaconfig.model.elements.Subcategory
 import co.eclipse5214.novaconfig.model.elements.TextParagraph
@@ -15,70 +16,74 @@ import gg.essential.elementa.effects.ScissorEffect
 import java.awt.Color
 
 class CategoryUIBuilder {
-    fun build(root: UIComponent, category: ConfigCategory, currentSettings: Map<String, Any?>, refresh: () -> Unit) {
-        val categoryContainer = UIBlock()
+    fun build(root: UIComponent, config: Config, category: ConfigCategory) {
+        val catagoryContainer = ScrollComponent()
             .constrain {
                 width = 450.pixels()
                 height = 325.pixels()
                 x = CenterConstraint()
                 y = CenterConstraint()
             }
-            .setColor(Color(0,0,0,0))
-            .effect(ScissorEffect())
             .setChildOf(root)
 
-        val scroller = ScrollComponent()
-            .constrain {
-                width = 450.pixels()
-                height = 325.pixels()
-                x = CenterConstraint()
-                y = SiblingConstraint()
-            }
-            .setChildOf(categoryContainer)
+        drawElements(catagoryContainer, config, category)
+    }
 
-        // Iterate through category elements and render toggles
-        var yOffset =  20f // Start position
-        var previousHeight = 0f // Tracks last element’s height
+    private val rendered = mutableListOf<Pair<Int, UIComponent>>()
 
-        category.elements.forEach { element ->
-            println("shouldShow for ${element.id}: ${element.shouldShow(currentSettings)}")
-            if (!element.shouldShow(currentSettings)) return@forEach
+    private fun drawElements(root: UIComponent, config: Config, category: ConfigCategory) {
 
-            val elementHeight = when (element) {
-                is Toggle -> 60f
-                is TextParagraph -> 85f
-                is Subcategory -> 10f
-                else -> 50f // Default fallback
-            }
+        // Remove UI components from scroller
+        root.clearChildren()
 
-            val uiComponent = when (element) {
-                is Toggle -> ToggleUIBuilder().build(scroller, element, refresh)
-                is TextParagraph -> TextParagraphUIBuilder().build(scroller, element)
-                is Subcategory -> SubcategoryUIBuilder().build(scroller, element)
+
+        val settings = object : Map<String, Any?> {
+            override fun get(key: String): Any? = category.elements.find { it.id == key }?.value
+            override val entries get() = emptySet<Map.Entry<String, Any?>>()
+            override val keys get() = emptySet<String>()
+            override val values get() = emptyList<Any?>()
+            override val size get() = 0
+            override fun isEmpty() = false
+            override fun containsKey(key: String) = true
+            override fun containsValue(value: Any?) = false
+        }
+
+        // Layout tracking
+        //var yOffset = 20f
+        //var previousHeight = 0f
+        var previousComponent: UIComponent? = null
+
+        category.elements.forEachIndexed { offset, element ->
+            println("[ShouldShow] ${element.id} => ${element.shouldShow(settings)} (value = ${settings[element.id]})")
+
+            if (!element.shouldShow(settings)) return@forEachIndexed
+            println("[DrawElements] rendering ${element.id}")
+
+
+            val component = when (element) {
+                is Toggle -> ToggleUIBuilder().build(root, element) {
+                    drawElements(root, config, category)
+                }
+                is TextParagraph -> TextParagraphUIBuilder().build(root, element)
+                is Subcategory -> SubcategoryUIBuilder().build(root, element)
                 else -> null
             }
 
-            // **Fix: Use previous element's height for spacing consistency**
-            yOffset += previousHeight
-
-            uiComponent?.constrain {
-                y = yOffset.pixels()
+            //component?.constrain { y = yOffset.pixels() }
+            component?.constrain {
+                x = CenterConstraint()
+                y = SiblingConstraint(5f)
             }
 
-            previousHeight = elementHeight + 5f// Store current height for next iteration
+            component?.setChildOf(root)
+            if (component != null) previousComponent = component
+
+            //previousHeight = height + 5f
         }
 
-        yOffset += previousHeight
+        // Scroll buffer
+        /*
 
-        // this fixes scrolling
-        val bottumbuffer = UIBlock()
-            .constrain {
-                width = 450.pixels()
-                height = 10.pixels()
-                x = CenterConstraint()
-                y = yOffset.pixels()
-            }
-            .setColor(Color(0,0,0, 0))
-            .setChildOf(scroller)
+         */
     }
 }

@@ -10,15 +10,25 @@ import gg.essential.elementa.dsl.*
 
 class SubcategoryUIBuilder {
     fun build(root: UIComponent, subcategory: Subcategory): UIComponent {
+        val SubcategoryRoot = UIRoundedRectangle(6f)
+            .constrain {
+                width = 425.pixels()
+                height = 1.pixels()
+                x = CenterConstraint()
+                y = SiblingConstraint()
+            }
+            .setColor(NovaPalette.Base)
+            .setChildOf(root)
+
         val SubcategoryUnderline = UIRoundedRectangle(6f)
             .constrain {
                 width = 425.pixels()
                 height = 5.pixels()
                 x = CenterConstraint()
-                y = PixelConstraint(20f)
+                y = CenterConstraint()
             }
             .setColor(NovaPalette.Surface0)
-            .setChildOf(root)
+            .setChildOf(SubcategoryRoot)
 
         val SubcategoryBox = UIRoundedRectangle(6f)
             .constrain {

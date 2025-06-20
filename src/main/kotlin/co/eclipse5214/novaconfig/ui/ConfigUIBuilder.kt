@@ -26,15 +26,6 @@ class ConfigUIBuilder(private val config: Config) {
                 private val list = UIBlock()
                 private val card = UIBlock()
                 private val title = UIText(config.name)
-                private var currentSettings = config.flattenToMap()
-
-                private fun refreshUI() {
-                    selectedCategory?.let { category ->
-                        currentSettings = config.flattenToMap()
-                        card.clearChildren()
-                        CategoryUIBuilder().build(card, category, currentSettings, ::refreshUI)
-                    }
-                }
 
                 // Track selected category and initialization state
                 var selectedCategory: ConfigCategory? = config.categories.firstOrNull()
@@ -115,14 +106,14 @@ class ConfigUIBuilder(private val config: Config) {
                                 // **Remove previous category UI**
                                 card.clearChildren()
 
-                                CategoryUIBuilder().build(card, category, currentSettings, ::refreshUI)
+                                CategoryUIBuilder().build(card, config, category)
                             }
                         }
                     }
 
                     // **Build initial category UI only once when the screen opens**
                     if (!isInitialized) {
-                        selectedCategory?.let { CategoryUIBuilder().build(card, it, currentSettings, ::refreshUI) }
+                        selectedCategory?.let { CategoryUIBuilder().build(card, config, it) }
                         isInitialized = true
                     }
                 }
