@@ -23,10 +23,18 @@ class ConfigUIBuilder(private val config: Config) {
     fun build(): ConfigUI {
         return object : ConfigUI {
             override val screen = object :  WindowScreen(ElementaVersion.V2) {
-                //private val root = Window(ElementaVersion.V2)
                 private val list = UIBlock()
                 private val card = UIBlock()
                 private val title = UIText(config.name)
+                private var currentSettings = config.flattenToMap()
+
+                private fun refreshUI() {
+                    selectedCategory?.let { category ->
+                        currentSettings = config.flattenToMap()
+                        card.clearChildren()
+                        CategoryUIBuilder().build(card, category, currentSettings, ::refreshUI)
+                    }
+                }
 
                 // Track selected category and initialization state
                 var selectedCategory: ConfigCategory? = config.categories.firstOrNull()
@@ -107,14 +115,14 @@ class ConfigUIBuilder(private val config: Config) {
                                 // **Remove previous category UI**
                                 card.clearChildren()
 
-                                CategoryUIBuilder().build(card, category)
+                                CategoryUIBuilder().build(card, category, currentSettings, ::refreshUI)
                             }
                         }
                     }
 
                     // **Build initial category UI only once when the screen opens**
                     if (!isInitialized) {
-                        selectedCategory?.let { CategoryUIBuilder().build(card, it) }
+                        selectedCategory?.let { CategoryUIBuilder().build(card, it, currentSettings, ::refreshUI) }
                         isInitialized = true
                     }
                 }

@@ -1,8 +1,9 @@
 package co.eclipse5214.novaconfig.builder.elements
 
+import co.eclipse5214.novaconfig.builder.ElementBuilder
 import co.eclipse5214.novaconfig.model.elements.TextParagraph
 
-class TextParagraphBuilder {
+class TextParagraphBuilder: ElementBuilder() {
     lateinit var configName: String
     lateinit var name: String
     lateinit var description: String
@@ -12,6 +13,6 @@ class TextParagraphBuilder {
             configName = configName,
             name = name,
             description = description,
-        )
+        ).also { it.shouldShow = shouldShow }
     }
 }

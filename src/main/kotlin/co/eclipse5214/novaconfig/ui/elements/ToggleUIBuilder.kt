@@ -2,14 +2,15 @@ package co.eclipse5214.novaconfig.ui.elements
 
 import co.eclipse5214.novaconfig.model.elements.Toggle
 import co.eclipse5214.novaconfig.ui.NovaPalette
+import co.eclipse5214.novaconfig.utils.TickScheduler
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 
-
 class ToggleUIBuilder {
-    fun build(root: UIComponent, toggle: Toggle): UIComponent {
+    fun build(root: UIComponent, toggle: Toggle, refresh: () -> Unit): UIComponent {
         val toggleContainer = UIRoundedRectangle(6f)
             .constrain {
                 width = 425.pixels()
@@ -56,13 +57,32 @@ class ToggleUIBuilder {
 
         toggleSwitch.onMouseClick {
             toggle.value = !(toggle.value as Boolean) // Flip toggle state
-            toggleKnob.constrain {
-                x = PixelConstraint(if (toggle.value as Boolean) 30f else 2f) // Moves knob accordingly
+
+            toggleKnob.animate {
+                setXAnimation(
+                    Animations.OUT_CUBIC,
+                    0.2f,
+                    PixelConstraint(if (toggle.value as Boolean) 30f else 2f) // Moves knob accordingly
+                )
+
+                setColorAnimation(
+                    Animations.OUT_CUBIC,
+                    0.2f,
+                    (if (toggle.value as Boolean) NovaPalette.Text else NovaPalette.Surface1).toConstraint()
+                )
             }
 
-            toggleKnob.setColor(if (toggle.value as Boolean) NovaPalette.Text else NovaPalette.Surface1)
+            this.animate {
+                setColorAnimation(
+                    Animations.OUT_CUBIC,
+                    0.2f,
+                    (if (toggle.value as Boolean) NovaPalette.Mauve else NovaPalette.Surface2).toConstraint()
+                )
+            }
 
-            this.setColor(if (toggle.value as Boolean) NovaPalette.Mauve else NovaPalette.Surface2)
+            TickScheduler.schedule(4) {
+                refresh()
+            }
         }
 
         return toggleContainer

@@ -35,6 +35,8 @@ val myConfig = NovaApi.createConfig("example") {
             name = "Do Something Else"
             description = "This does something else"
             default = false
+
+            shouldShow{ it["show_map"] }
         }
 
         textparagraph {

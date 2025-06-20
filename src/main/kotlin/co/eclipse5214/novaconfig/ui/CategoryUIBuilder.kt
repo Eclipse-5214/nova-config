@@ -15,7 +15,7 @@ import gg.essential.elementa.effects.ScissorEffect
 import java.awt.Color
 
 class CategoryUIBuilder {
-    fun build(root: UIComponent, category: ConfigCategory) {
+    fun build(root: UIComponent, category: ConfigCategory, currentSettings: Map<String, Any?>, refresh: () -> Unit) {
         val categoryContainer = UIBlock()
             .constrain {
                 width = 450.pixels()
@@ -41,6 +41,9 @@ class CategoryUIBuilder {
         var previousHeight = 0f // Tracks last element’s height
 
         category.elements.forEach { element ->
+            println("shouldShow for ${element.id}: ${element.shouldShow(currentSettings)}")
+            if (!element.shouldShow(currentSettings)) return@forEach
+
             val elementHeight = when (element) {
                 is Toggle -> 60f
                 is TextParagraph -> 85f
@@ -49,7 +52,7 @@ class CategoryUIBuilder {
             }
 
             val uiComponent = when (element) {
-                is Toggle -> ToggleUIBuilder().build(scroller, element)
+                is Toggle -> ToggleUIBuilder().build(scroller, element, refresh)
                 is TextParagraph -> TextParagraphUIBuilder().build(scroller, element)
                 is Subcategory -> SubcategoryUIBuilder().build(scroller, element)
                 else -> null

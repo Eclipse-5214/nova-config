@@ -1,8 +1,9 @@
 package co.eclipse5214.novaconfig.builder.elements
 
+import co.eclipse5214.novaconfig.builder.ElementBuilder
 import co.eclipse5214.novaconfig.model.elements.Toggle
 
-class ToggleBuilder {
+class ToggleBuilder: ElementBuilder() {
     lateinit var configName: String
     lateinit var name: String
     lateinit var description: String
@@ -14,6 +15,6 @@ class ToggleBuilder {
             name = name,
             description = description,
             default = default,
-        )
+        ).also { it.shouldShow = shouldShow }
     }
 }
