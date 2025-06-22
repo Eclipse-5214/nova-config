@@ -25,7 +25,7 @@ val myConfig = NovaApi.createConfig("example") {
         }
 
         toggle {
-            configName = "show_map"
+            configName = "do_something"
             name = "Do Something"
             description = "This does something"
             default = true
@@ -34,10 +34,10 @@ val myConfig = NovaApi.createConfig("example") {
         toggle {
             configName = "something_else"
             name = "Do Something Else"
-            description = "This does something else"
+            description = "This doesn't something else"
             default = false
 
-            shouldShow{ it["show_map"] }
+            shouldShow{ it["do_something"] }
         }
 
         colorpicker {
@@ -56,13 +56,5 @@ val myConfig = NovaApi.createConfig("example") {
                 chatutils.clientMsg("§d[Nova] §bCool Button Pressed!", false)
             }
         }
-
-        toggle {
-            configName = "a_third_thing"
-            name = "A Third Thing"
-            description = "This does a third thing"
-            default = true
-        }
-
     }
 }

@@ -21,7 +21,7 @@ object NovaConfig : ClientModInitializer {
 			val cmd = Command<FabricClientCommandSource> { context ->
 				myConfig.open()
 
-				chatutils.clientMsg("§d[Nova] §bValue of show_map is ${myConfig["show_map"]}", false)
+				//chatutils.clientMsg("§d[Nova] §bValue of show_map is ${myConfig["show_map"]}", false)
 
 				1
 			}
