@@ -1,6 +1,7 @@
 package co.eclipse5214.novaconfig.example
 
 import co.eclipse5214.novaconfig.NovaApi
+import co.eclipse5214.novaconfig.utils.chatutils
 
 val myConfig = NovaApi.createConfig("example") {
     category("General") {
@@ -20,7 +21,7 @@ val myConfig = NovaApi.createConfig("example") {
             configName = "GeneralTitle"
             name = "§dGeneral Settings"
             description = "welcome to general settings for configuring general settings\n" +
-                          "This is a reallly long line of text to test text wrapping btw the last line was split with a \\n. The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds."
+                          "This is a reallly long line of text to show off text wrapping, btw the last line was split with a \\n. The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds."
         }
 
         toggle {
@@ -46,11 +47,14 @@ val myConfig = NovaApi.createConfig("example") {
             default = rgba(255,255,255,255)
         }
 
-        textparagraph {
-            configName = "GeneralTitle"
-            name = "§dGeneral Settings"
-            description = "welcome to general settings for configuring general settings\n" +
-                    "This is a reallly long line of text to test text wrapping btw the last line was split with a \\n. The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds."
+        button {
+            configName = "button"
+            name = "Cool Button"
+            description = "A very cool button"
+
+            onclick {
+                chatutils.clientMsg("§d[Nova] §bCool Button Pressed!", false)
+            }
         }
 
         toggle {

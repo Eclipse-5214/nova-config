@@ -8,7 +8,6 @@ import gg.essential.elementa.components.*
 import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
-import gg.essential.elementa.markdown.selection.Cursor
 import java.awt.Color
 
 class ColorPickerUIBuilder {

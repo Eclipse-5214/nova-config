@@ -1,5 +1,6 @@
 package co.eclipse5214.novaconfig.builder
 
+import co.eclipse5214.novaconfig.builder.elements.ButtonBuilder
 import co.eclipse5214.novaconfig.builder.elements.ColorPickerBuilder
 import co.eclipse5214.novaconfig.builder.elements.TextParagraphBuilder
 import co.eclipse5214.novaconfig.model.ConfigElement
@@ -16,7 +17,7 @@ class CategoryBuilder(private val name: String) {
     }
 
     fun textparagraph(builder: TextParagraphBuilder.() -> Unit) {
-        val textparagraph = TextParagraphBuilder().apply( builder).build()
+        val textparagraph = TextParagraphBuilder().apply(builder).build()
         elements += textparagraph
     }
 
@@ -26,8 +27,13 @@ class CategoryBuilder(private val name: String) {
     }
 
     fun colorpicker(builder: ColorPickerBuilder.() -> Unit) {
-        val colorpicker = ColorPickerBuilder().apply( builder).build()
+        val colorpicker = ColorPickerBuilder().apply(builder).build()
         elements += colorpicker
+    }
+
+    fun button(builder: ButtonBuilder.() -> Unit) {
+        val button = ButtonBuilder().apply(builder).build()
+        elements += button
     }
 
     fun build(): ConfigCategory {
