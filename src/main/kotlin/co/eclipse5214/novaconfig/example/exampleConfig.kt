@@ -39,6 +39,13 @@ val myConfig = NovaApi.createConfig("example") {
             shouldShow{ it["show_map"] }
         }
 
+        colorpicker {
+            configName = "color_picker"
+            name = "Fun Color Picker"
+            description = "A cool color picker"
+            default = rgba(255,255,255,255)
+        }
+
         textparagraph {
             configName = "GeneralTitle"
             name = "§dGeneral Settings"

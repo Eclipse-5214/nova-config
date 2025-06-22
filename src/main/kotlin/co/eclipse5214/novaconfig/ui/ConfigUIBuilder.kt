@@ -19,7 +19,26 @@ import gg.essential.elementa.effects.ScissorEffect
 import net.minecraft.client.gui.DrawContext
 import java.awt.Color
 
+/**
+ * Responsible for constructing the main configuration UI screen for NovaConfig.
+ *
+ * This builder renders the category selector panel and corresponding content area,
+ * dynamically swapping displayed elements based on the user's active selection.
+ *
+ * @param config The root configuration model containing all categories and settings.
+ */
 class ConfigUIBuilder(private val config: Config) {
+    /**
+     * Builds and returns a fully interactive configuration UI.
+     *
+     * The resulting screen includes:
+     * - A dynamic category selector on the left.
+     * - A scrollable configuration panel that updates per selected category.
+     * - Automatic initialization of the first category upon display.
+     *
+     * @return A `ConfigUI` instance with `show()` and `hide()` behavior,
+     *         ready to be displayed in a Minecraft screen context.
+     */
     fun build(): ConfigUI {
         return object : ConfigUI {
             override val screen = object :  WindowScreen(ElementaVersion.V2) {

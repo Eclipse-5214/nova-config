@@ -7,8 +7,25 @@ import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
 
+/**
+ * Builds a non-interactive paragraph component used for descriptive or instructional text.
+ *
+ * Typically styled in a secondary or muted tone, this element enhances clarity
+ * and breaks up sections of the config interface.
+ */
 
 class TextParagraphUIBuilder {
+
+    /**
+     * Builds a non-interactive text paragraph component.
+     *
+     * Typically used to display static descriptive text or section guidance within a configuration screen.
+     *
+     * @param root The UIComponent to attach the paragraph to.
+     * @param textParagraph The TextParagraph model containing the text and formatting.
+     * @return A styled UIComponent representing the paragraph.
+     */
+
     fun build(root: UIComponent, textParagraph: TextParagraph): UIComponent {
         val textParagraphContainer = UIRoundedRectangle(6f)
             .constrain {

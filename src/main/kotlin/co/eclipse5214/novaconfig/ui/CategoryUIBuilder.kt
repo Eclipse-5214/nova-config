@@ -2,9 +2,11 @@ package co.eclipse5214.novaconfig.ui
 
 import co.eclipse5214.novaconfig.model.Config
 import co.eclipse5214.novaconfig.model.ConfigCategory
+import co.eclipse5214.novaconfig.model.elements.ColorPicker
 import co.eclipse5214.novaconfig.model.elements.Subcategory
 import co.eclipse5214.novaconfig.model.elements.TextParagraph
 import co.eclipse5214.novaconfig.model.elements.Toggle
+import co.eclipse5214.novaconfig.ui.elements.ColorPickerUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.SubcategoryUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.TextParagraphUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.ToggleUIBuilder
@@ -12,10 +14,19 @@ import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
-import gg.essential.elementa.effects.ScissorEffect
-import java.awt.Color
 
 class CategoryUIBuilder {
+
+    /**
+     * Initializes and renders a scrollable container for a specific configuration category.
+     *
+     * This function sets up a bounded `ScrollComponent`, attaches it to the root,
+     * and populates it with all visible elements from the given category using `drawElements(...)`.
+     *
+     * @param root The parent UIComponent to which the scrollable category view will be attached.
+     * @param config The full configuration model containing all categories and their current values.
+     * @param category The specific category whose UI elements should be rendered into the container.
+     */
     fun build(root: UIComponent, config: Config, category: ConfigCategory) {
         val catagoryContainer = ScrollComponent()
             .constrain {
@@ -31,12 +42,27 @@ class CategoryUIBuilder {
 
     private val rendered = mutableListOf<Pair<Int, UIComponent>>()
 
-    private fun drawElements(root: UIComponent, config: Config, category: ConfigCategory) {
+    /**
+     * Renders visible configuration elements into the given UI root.
+     *
+     * This function selectively redraws only the elements starting from the specified index,
+     * clearing previously rendered components beyond that point while preserving scroll order
+     * and layout continuity. It evaluates visibility using the `shouldShow(...)` predicate
+     * per element, based on the current config state.
+     *
+     * @param root The UIComponent (typically a ScrollComponent's container) that will host the drawn elements.
+     * @param config The overall Config object containing all categories and their elements.
+     * @param category The specific ConfigCategory whose elements are to be rendered.
+     * @param startingIndex Optional index in the element list to begin drawing from; defaults to 0 for full layout.
+     */
+    private fun drawElements(root: UIComponent, config: Config, category: ConfigCategory, startingIndex: Int = 0) {
 
         // Remove UI components from scroller
-        root.clearChildren()
+        val toRemove = rendered.dropWhile { it.first < startingIndex }
+        toRemove.forEach { it.second.parent.removeChild(it.second) }
+        rendered.removeAll(toRemove)
 
-
+        // Create dummy settings
         val settings = object : Map<String, Any?> {
             override fun get(key: String): Any? = category.elements.find { it.id == key }?.value
             override val entries get() = emptySet<Map.Entry<String, Any?>>()
@@ -48,42 +74,29 @@ class CategoryUIBuilder {
             override fun containsValue(value: Any?) = false
         }
 
-        // Layout tracking
-        //var yOffset = 20f
-        //var previousHeight = 0f
-        var previousComponent: UIComponent? = null
-
-        category.elements.forEachIndexed { offset, element ->
-            println("[ShouldShow] ${element.id} => ${element.shouldShow(settings)} (value = ${settings[element.id]})")
-
-            if (!element.shouldShow(settings)) return@forEachIndexed
-            println("[DrawElements] rendering ${element.id}")
-
+        // Draw elements
+        category.elements.forEachIndexed { index, element ->
+            if (index < startingIndex || !element.shouldShow(settings)) return@forEachIndexed
 
             val component = when (element) {
                 is Toggle -> ToggleUIBuilder().build(root, element) {
-                    drawElements(root, config, category)
+                    drawElements(root, config, category, index + 1)
                 }
+
+                is ColorPicker -> ColorPickerUIBuilder().build(root, element)
                 is TextParagraph -> TextParagraphUIBuilder().build(root, element)
                 is Subcategory -> SubcategoryUIBuilder().build(root, element)
                 else -> null
             }
 
-            //component?.constrain { y = yOffset.pixels() }
             component?.constrain {
                 x = CenterConstraint()
                 y = SiblingConstraint(5f)
             }
 
-            component?.setChildOf(root)
-            if (component != null) previousComponent = component
-
-            //previousHeight = height + 5f
+            component?.let {
+                rendered.add(index to it)
+            }
         }
-
-        // Scroll buffer
-        /*
-
-         */
     }
 }

@@ -7,8 +7,25 @@ import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.dsl.*
 
+/**
+ * Renders a visual marker for a subcategory heading within a configuration category.
+ *
+ * This builder creates a lightweight separator, often used to group related elements
+ * and improve layout hierarchy and visual flow.
+ */
 
 class SubcategoryUIBuilder {
+
+    /**
+     * Builds a visual marker or separator representing a subcategory within a category.
+     *
+     * This can include a label, line, or indentation element used to group related options under a heading.
+     *
+     * @param root The UIComponent to attach the subcategory label or marker to.
+     * @param subcategory The Subcategory model containing the display name and any metadata.
+     * @return A UIComponent that visually separates this section within the scroll layout.
+     */
+
     fun build(root: UIComponent, subcategory: Subcategory): UIComponent {
         val SubcategoryRoot = UIRoundedRectangle(6f)
             .constrain {

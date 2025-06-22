@@ -9,7 +9,27 @@ import gg.essential.elementa.constraints.*
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 
+/**
+ * Responsible for constructing the visual toggle component bound to a config boolean value.
+ *
+ * Includes a label, description text, and a switch with an animated knob to reflect the current state.
+ * The toggle updates its internal value on click and triggers a refresh lambda to recompute visibility logic.
+ */
+
 class ToggleUIBuilder {
+
+    /**
+     * Builds a toggle UI component bound to the given Toggle element.
+     *
+     * The toggle includes a label, description, and a switch with an animated knob.
+     * Clicking the switch updates the Toggle's value and invokes the provided refresh callback.
+     *
+     * @param root The UIComponent to attach the toggle container to.
+     * @param toggle The Toggle data model representing the option.
+     * @param refresh A lambda that will be invoked after the toggle is clicked, typically triggering a partial UI redraw.
+     * @return A fully constructed UIComponent representing the toggle.
+     */
+
     fun build(root: UIComponent, toggle: Toggle, refresh: () -> Unit): UIComponent {
         val toggleContainer = UIRoundedRectangle(6f)
             .constrain {
@@ -80,11 +100,7 @@ class ToggleUIBuilder {
                 )
             }
 
-            println("[Toggle] ${toggle.id} set to ${toggle.value}")
-
-            TickScheduler.schedule(4){
-                refresh()
-            }
+            refresh()
         }
 
         return toggleContainer

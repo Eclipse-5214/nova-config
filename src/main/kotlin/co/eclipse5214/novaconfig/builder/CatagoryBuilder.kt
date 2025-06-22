@@ -1,5 +1,6 @@
 package co.eclipse5214.novaconfig.builder
 
+import co.eclipse5214.novaconfig.builder.elements.ColorPickerBuilder
 import co.eclipse5214.novaconfig.builder.elements.TextParagraphBuilder
 import co.eclipse5214.novaconfig.model.ConfigElement
 import co.eclipse5214.novaconfig.model.ConfigCategory
@@ -22,6 +23,11 @@ class CategoryBuilder(private val name: String) {
     fun toggle(builder: ToggleBuilder.() -> Unit) {
         val toggle = ToggleBuilder().apply(builder).build()
         elements += toggle
+    }
+
+    fun colorpicker(builder: ColorPickerBuilder.() -> Unit) {
+        val colorpicker = ColorPickerBuilder().apply( builder).build()
+        elements += colorpicker
     }
 
     fun build(): ConfigCategory {
