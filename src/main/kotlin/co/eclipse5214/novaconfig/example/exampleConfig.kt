@@ -60,12 +60,19 @@ val myConfig = NovaApi.createConfig("example") {
         textinput {
             configName = "text_input"
             name = "Amazing Text Input"
-            description = "This is an amzing Text Input"
+            description = "This is an amazing Text Input"
             placeholder = "Type something here!"
 
             onvaluechange { string ->
                 chatutils.clientMsg("§d[Nova] §bYou typed $string!", false)
             }
+        }
+
+        keybind {
+            configName = "key_bind"
+            name = "Superb Key Bind"
+            description = "A superb keybind"
+            default = 80
         }
     }
 }

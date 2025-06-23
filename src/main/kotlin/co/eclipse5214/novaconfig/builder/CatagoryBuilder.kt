@@ -2,6 +2,7 @@ package co.eclipse5214.novaconfig.builder
 
 import co.eclipse5214.novaconfig.builder.elements.ButtonBuilder
 import co.eclipse5214.novaconfig.builder.elements.ColorPickerBuilder
+import co.eclipse5214.novaconfig.builder.elements.KeybindBuilder
 import co.eclipse5214.novaconfig.builder.elements.TextInputBuilder
 import co.eclipse5214.novaconfig.builder.elements.TextParagraphBuilder
 import co.eclipse5214.novaconfig.model.ConfigElement
@@ -40,6 +41,11 @@ class CategoryBuilder(private val name: String) {
     fun textinput(builder: TextInputBuilder.() -> Unit) {
         val textinput = TextInputBuilder().apply(builder).build()
         elements += textinput
+    }
+
+    fun keybind(builder: KeybindBuilder.() -> Unit) {
+        val keybind = KeybindBuilder().apply(builder).build()
+        elements += keybind
     }
 
     fun build(): ConfigCategory {
