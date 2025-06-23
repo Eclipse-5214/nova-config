@@ -56,5 +56,16 @@ val myConfig = NovaApi.createConfig("example") {
                 chatutils.clientMsg("§d[Nova] §bCool Button Pressed!", false)
             }
         }
+
+        textinput {
+            configName = "text_input"
+            name = "Amazing Text Input"
+            description = "This is an amzing Text Input"
+            placeholder = "Type something here!"
+
+            onvaluechange { string ->
+                chatutils.clientMsg("§d[Nova] §bYou typed $string!", false)
+            }
+        }
     }
 }

@@ -5,11 +5,13 @@ import co.eclipse5214.novaconfig.model.ConfigCategory
 import co.eclipse5214.novaconfig.model.elements.Button
 import co.eclipse5214.novaconfig.model.elements.ColorPicker
 import co.eclipse5214.novaconfig.model.elements.Subcategory
+import co.eclipse5214.novaconfig.model.elements.TextInput
 import co.eclipse5214.novaconfig.model.elements.TextParagraph
 import co.eclipse5214.novaconfig.model.elements.Toggle
 import co.eclipse5214.novaconfig.ui.elements.ButtonUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.ColorPickerUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.SubcategoryUIBuilder
+import co.eclipse5214.novaconfig.ui.elements.TextInputUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.TextParagraphUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.ToggleUIBuilder
 import gg.essential.elementa.UIComponent
@@ -89,6 +91,7 @@ class CategoryUIBuilder {
                 is ColorPicker -> ColorPickerUIBuilder().build(root, element)
                 is TextParagraph -> TextParagraphUIBuilder().build(root, element)
                 is Subcategory -> SubcategoryUIBuilder().build(root, element)
+                is TextInput -> TextInputUIBuilder().build(root, element)
                 else -> null
             }
 
