@@ -74,5 +74,12 @@ val myConfig = NovaApi.createConfig("example") {
             description = "A superb keybind"
             default = 80
         }
+
+        dropdown {
+            configName = "drop_down"
+            name = "Stellar Dropdown"
+            description = "A stellar dropdown"
+            options = listOf("option 1",  "option 2", "option 3", "option 4")
+        }
     }
 }
