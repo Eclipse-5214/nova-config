@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.client.MinecraftClient
 import co.eclipse5214.novaconfig.example.myConfig
 import co.eclipse5214.novaconfig.utils.TickScheduler
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.fabricmc.loader.api.FabricLoader
 import java.nio.file.Paths
 
@@ -27,5 +28,11 @@ object NovaConfig : ClientModInitializer {
 			}
 			dispatcher.register(ClientCommandManager.literal("nova-test").executes(cmd))
 		}
+
+		ClientLifecycleEvents.CLIENT_STOPPING.register { _ ->
+			NovaApi.saveAllConfigs()
+		}
+
+
 	}
 }

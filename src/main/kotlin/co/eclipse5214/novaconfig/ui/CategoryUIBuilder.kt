@@ -6,6 +6,8 @@ import co.eclipse5214.novaconfig.model.elements.Button
 import co.eclipse5214.novaconfig.model.elements.ColorPicker
 import co.eclipse5214.novaconfig.model.elements.Dropdown
 import co.eclipse5214.novaconfig.model.elements.Keybind
+import co.eclipse5214.novaconfig.model.elements.Slider
+import co.eclipse5214.novaconfig.model.elements.StepSlider
 import co.eclipse5214.novaconfig.model.elements.Subcategory
 import co.eclipse5214.novaconfig.model.elements.TextInput
 import co.eclipse5214.novaconfig.model.elements.TextParagraph
@@ -14,6 +16,8 @@ import co.eclipse5214.novaconfig.ui.elements.ButtonUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.ColorPickerUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.DropdownUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.KeybindUIBuilder
+import co.eclipse5214.novaconfig.ui.elements.SliderUIBuilder
+import co.eclipse5214.novaconfig.ui.elements.StepSliderUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.SubcategoryUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.TextInputUIBuilder
 import co.eclipse5214.novaconfig.ui.elements.TextParagraphUIBuilder
@@ -48,6 +52,7 @@ class CategoryUIBuilder {
         drawElements(catagoryContainer, config, category)
     }
 
+    // Tracks rendered UI elements and their original index to support partial redraw
     private val rendered = mutableListOf<Pair<Int, UIComponent>>()
 
     /**
@@ -65,12 +70,12 @@ class CategoryUIBuilder {
      */
     private fun drawElements(root: UIComponent, config: Config, category: ConfigCategory, startingIndex: Int = 0) {
 
-        // Remove UI components from scroller
+        // Remove all components rendered after the starting index to prep for partial redraw
         val toRemove = rendered.dropWhile { it.first < startingIndex }
         toRemove.forEach { it.second.parent.removeChild(it.second) }
         rendered.removeAll(toRemove)
 
-        // Create dummy settings
+        // Dummy settings map used to evaluate element visibility via shouldShow
         val settings = object : Map<String, Any?> {
             override fun get(key: String): Any? = category.elements.find { it.id == key }?.value
             override val entries get() = emptySet<Map.Entry<String, Any?>>()
@@ -82,30 +87,34 @@ class CategoryUIBuilder {
             override fun containsValue(value: Any?) = false
         }
 
-        // Draw elements
+        // Iterate and render each visible UI element in the category
         category.elements.forEachIndexed { index, element ->
             if (index < startingIndex || !element.shouldShow(settings)) return@forEachIndexed
 
             val component = when (element) {
-                is Toggle -> ToggleUIBuilder().build(root, element) {
+                is Button       -> ButtonUIBuilder().build(root, element)
+                is ColorPicker  -> ColorPickerUIBuilder().build(root, element)
+                is Dropdown     -> DropdownUIBuilder().build(root, element)
+                is Keybind      -> KeybindUIBuilder().build(root, element)
+                is Slider       -> SliderUIBuilder().build(root, element)
+                is StepSlider   -> StepSliderUIBuilder().build(root, element)
+                is Subcategory  -> SubcategoryUIBuilder().build(root, element)
+                is TextInput    -> TextInputUIBuilder().build(root, element)
+                is TextParagraph-> TextParagraphUIBuilder().build(root, element)
+                is Toggle       -> ToggleUIBuilder().build(root, element) {
+                    // Re-render nested elements when toggle state changes
                     drawElements(root, config, category, index + 1)
                 }
-
-                is Button -> ButtonUIBuilder().build(root, element)
-                is ColorPicker -> ColorPickerUIBuilder().build(root, element)
-                is TextParagraph -> TextParagraphUIBuilder().build(root, element)
-                is Subcategory -> SubcategoryUIBuilder().build(root, element)
-                is TextInput -> TextInputUIBuilder().build(root, element)
-                is Keybind -> KeybindUIBuilder().build(root, element)
-                is Dropdown -> DropdownUIBuilder().build(root, element)
-                else -> null
+                else -> null // Unknown element type
             }
 
+            // Position each component vertically in stack
             component?.constrain {
                 x = CenterConstraint()
                 y = SiblingConstraint(5f)
             }
 
+            // Track rendered component for future redraw
             component?.let {
                 rendered.add(index to it)
             }

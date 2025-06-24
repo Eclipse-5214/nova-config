@@ -2,16 +2,35 @@ package co.eclipse5214.novaconfig.ui
 
 import java.awt.Color
 
+/**
+ * NovaPalette – Unified theming system for NovaConfig.
+ *
+ * Inspired in full by designs and color guidance from Catppuccin.
+ * https://github.com/catppuccin
+ */
 object NovaPalette {
+
+    // Active theme (can be replaced with user-defined overrides)
     private var theme: Theme = Theme(emptyMap())
 
+    /**
+     * Initializes or replaces the current theme with a new one.
+     * @param newTheme The theme to apply to the palette.
+     */
     fun init(newTheme: Theme) {
         theme = newTheme
     }
 
+    /**
+     * Extension function to apply a custom alpha channel to an existing Color.
+     * @param alpha Alpha value (0–255).
+     * @return A new Color with the same RGB and specified alpha.
+     */
     fun Color.withAlpha(alpha: Int): Color {
-        return Color(red, green, blue, alpha) // Convert alpha from 0-1 range to 0-255
+        return Color(red, green, blue, alpha)
     }
+
+    // === Primary color palette ===
 
     val Rosewater get() = theme["Rosewater"] ?: Color.decode("#f2d5cf")
     val Flamingo  get() = theme["Flamingo"]  ?: Color.decode("#eebebe")
@@ -28,12 +47,16 @@ object NovaPalette {
     val Blue      get() = theme["Blue"]      ?: Color.decode("#8caaee")
     val Lavender  get() = theme["Lavender"]  ?: Color.decode("#babbf1")
 
+    // === Foreground text and overlays ===
+
     val Text      get() = theme["Text"]      ?: Color.decode("#c6d0f5")
     val Subtext1  get() = theme["Subtext1"]  ?: Color.decode("#b5bfe2")
     val Subtext0  get() = theme["Subtext0"]  ?: Color.decode("#a5adce")
     val Overlay2  get() = theme["Overlay2"]  ?: Color.decode("#949cbb")
     val Overlay1  get() = theme["Overlay1"]  ?: Color.decode("#838ba7")
     val Overlay0  get() = theme["Overlay0"]  ?: Color.decode("#737994")
+
+    // === Background surfaces ===
 
     val Surface2  get() = theme["Surface2"]  ?: Color.decode("#626880")
     val Surface1  get() = theme["Surface1"]  ?: Color.decode("#51576d")

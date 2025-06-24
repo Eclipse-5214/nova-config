@@ -1,6 +1,8 @@
 package co.eclipse5214.novaconfig.model
 
+import co.eclipse5214.novaconfig.model.elements.RGBA
 import co.eclipse5214.novaconfig.model.elements.Toggle
+import kotlinx.serialization.json.*
 
 data class Config(
     val name: String,
@@ -19,5 +21,46 @@ data class Config(
         }
 
         return result
+    }
+
+    fun toJson(): JsonObject {
+        println("All categories:")
+        categories.forEach { println("- ${it.name}") }
+
+        return buildJsonObject {
+            categories.forEach { category ->
+                println("Processing category: ${category.name}")
+
+                val categoryValues = buildJsonObject {
+                    category.elements.forEach { element ->
+                        val id = element.id
+                        val value = element.value
+
+                        if (id != null && value != null) {
+                            println("$id, $value")
+
+                            val jsonValue = when (value) {
+                                is Boolean -> JsonPrimitive(value)
+                                is Int -> JsonPrimitive(value)
+                                is Float -> JsonPrimitive(value)
+                                is Double -> JsonPrimitive(value)
+                                is String -> JsonPrimitive(value)
+                                is RGBA -> JsonPrimitive(value.toHex())
+                                else -> {
+                                    println("Unsupported type for $id: ${value::class.simpleName}")
+                                    return@forEach
+                                }
+                            }
+
+                            put(id, jsonValue)
+                        }
+                    }
+                }
+
+                if (categoryValues.isNotEmpty()) {
+                    put(category.name, categoryValues)
+                }
+            }
+        }
     }
 }

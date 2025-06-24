@@ -4,6 +4,8 @@ import co.eclipse5214.novaconfig.builder.elements.ButtonBuilder
 import co.eclipse5214.novaconfig.builder.elements.ColorPickerBuilder
 import co.eclipse5214.novaconfig.builder.elements.DropdownBuilder
 import co.eclipse5214.novaconfig.builder.elements.KeybindBuilder
+import co.eclipse5214.novaconfig.builder.elements.SliderBuilder
+import co.eclipse5214.novaconfig.builder.elements.StepSliderBuilder
 import co.eclipse5214.novaconfig.builder.elements.TextInputBuilder
 import co.eclipse5214.novaconfig.builder.elements.TextParagraphBuilder
 import co.eclipse5214.novaconfig.model.ConfigElement
@@ -52,6 +54,16 @@ class CategoryBuilder(private val name: String) {
     fun dropdown(builder: DropdownBuilder.() -> Unit) {
         val dropdown = DropdownBuilder().apply(builder).build()
         elements += dropdown
+    }
+
+    fun slider(builder: SliderBuilder.() -> Unit) {
+        val slider = SliderBuilder().apply(builder).build()
+        elements += slider
+    }
+
+    fun stepslider(builder: StepSliderBuilder.() -> Unit) {
+        val stepslider = StepSliderBuilder().apply(builder).build()
+        elements += stepslider
     }
 
     fun build(): ConfigCategory {

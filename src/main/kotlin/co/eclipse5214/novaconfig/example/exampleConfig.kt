@@ -3,7 +3,7 @@ package co.eclipse5214.novaconfig.example
 import co.eclipse5214.novaconfig.NovaApi
 import co.eclipse5214.novaconfig.utils.chatutils
 
-val myConfig = NovaApi.createConfig("example") {
+val myConfig = NovaApi.createConfig("example", "nova-config") {
     category("General") {
         textparagraph {
             configName = "title"
@@ -80,6 +80,25 @@ val myConfig = NovaApi.createConfig("example") {
             name = "Stellar Dropdown"
             description = "A stellar dropdown"
             options = listOf("option 1",  "option 2", "option 3", "option 4")
+        }
+
+        slider {
+            configName = "slider"
+            name = "Incredible Slider"
+            description = "An incredible slider"
+            min = 5f
+            max = 10f
+            default = 5f
+        }
+
+        stepslider {
+            configName = "step_slider"
+            name = "Breathtaking Step Slider"
+            description = "A brethtaking step slider"
+            min = 2
+            max = 10
+            step = 2
+            default = 2
         }
     }
 }

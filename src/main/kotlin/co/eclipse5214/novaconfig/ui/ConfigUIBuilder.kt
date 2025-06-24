@@ -3,55 +3,47 @@ package co.eclipse5214.novaconfig.ui
 import co.eclipse5214.novaconfig.model.Config
 import co.eclipse5214.novaconfig.model.ConfigCategory
 import co.eclipse5214.novaconfig.utils.TickScheduler
-import co.eclipse5214.novaconfig.utils.chatutils
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.screen.Screen
-import net.minecraft.text.Text
 import co.eclipse5214.novaconfig.ui.NovaPalette.withAlpha
+import net.minecraft.client.MinecraftClient
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.WindowScreen
 import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.*
-import gg.essential.universal.UMatrixStack
 import gg.essential.elementa.dsl.*
-import gg.essential.elementa.effects.ScissorEffect
-import net.minecraft.client.gui.DrawContext
 import java.awt.Color
 
 /**
  * Responsible for constructing the main configuration UI screen for NovaConfig.
  *
- * This builder renders the category selector panel and corresponding content area,
- * dynamically swapping displayed elements based on the user's active selection.
+ * This screen includes:
+ * - A left-side category selector panel
+ * - A scrollable config panel on the right
+ * - Dynamic switching between category views
  *
- * @param config The root configuration model containing all categories and settings.
+ * @param config The full configuration object containing category metadata and element values.
  */
 class ConfigUIBuilder(private val config: Config) {
+
     /**
-     * Builds and returns a fully interactive configuration UI.
-     *
-     * The resulting screen includes:
-     * - A dynamic category selector on the left.
-     * - A scrollable configuration panel that updates per selected category.
-     * - Automatic initialization of the first category upon display.
-     *
-     * @return A `ConfigUI` instance with `show()` and `hide()` behavior,
-     *         ready to be displayed in a Minecraft screen context.
+     * Constructs and returns a ready-to-display configuration UI.
+     * The returned `ConfigUI` object contains a screen and lifecycle hooks.
      */
     fun build(): ConfigUI {
         return object : ConfigUI {
-            override val screen = object :  WindowScreen(ElementaVersion.V2) {
-                private val list = UIBlock()
-                private val card = UIBlock()
+
+            // Main interactive screen driven by Elementa
+            override val screen = object : WindowScreen(ElementaVersion.V2) {
+                private val list = UIBlock()  // Background list container
+                private val card = UIBlock()  // Main category content container
                 private val title = UIText(config.name)
 
-                // Track selected category and initialization state
-                var selectedCategory: ConfigCategory? = config.categories.firstOrNull()
-                var isInitialized = false
+                private var selectedCategory: ConfigCategory? = config.categories.firstOrNull()
+                private var isInitialized = false  // Ensures initial load happens only once
 
                 init {
-                    // Background card
+                    // === Frame Containers ===
+
                     list
                         .constrain {
                             width = 600.pixels()
@@ -66,7 +58,7 @@ class ConfigUIBuilder(private val config: Config) {
                         .constrain {
                             width = 475.pixels()
                             height = 350.pixels()
-                            x = CenterConstraint() + 63.pixels()
+                            x = CenterConstraint() + 63.pixels() // Offset to the right of list panel
                             y = CenterConstraint()
                         }
                         .setColor(NovaPalette.Base)
@@ -80,10 +72,12 @@ class ConfigUIBuilder(private val config: Config) {
                         .setTextScale(1.5f.pixels())
                         .setChildOf(window)
 
+                    // === Category Button Panel ===
+
                     val categoryLabels = mutableMapOf<ConfigCategory, UIComponent>()
 
-                    // Build category buttons
                     config.categories.forEachIndexed { index, category ->
+                        // Background shading for button
                         val buttonBG = UIRoundedRectangle(6f)
                             .constrain {
                                 width = 100.pixels()
@@ -94,6 +88,7 @@ class ConfigUIBuilder(private val config: Config) {
                             .setColor(NovaPalette.Mauve)
                             .setChildOf(window)
 
+                        // Actual button surface
                         val button = UIRoundedRectangle(6f)
                             .constrain {
                                 width = 100.pixels()
@@ -104,6 +99,7 @@ class ConfigUIBuilder(private val config: Config) {
                             .setColor(NovaPalette.Surface0)
                             .setChildOf(buttonBG)
 
+                        // Category label text
                         val label = UIText(category.name)
                             .constrain {
                                 x = CenterConstraint()
@@ -114,23 +110,24 @@ class ConfigUIBuilder(private val config: Config) {
 
                         categoryLabels[category] = label
 
+                        // Click handler to change category view
                         button.onMouseClick {
                             if (selectedCategory != category) {
                                 selectedCategory = category
+
+                                // Update label highlight colors
                                 categoryLabels.forEach { (cat, lbl) ->
                                     lbl.setColor(if (cat == selectedCategory) NovaPalette.Mauve else Color.WHITE)
                                 }
-                                chatutils.clientMsg("§d[Nova] §b${category.name} pressed!", false)
 
-                                // **Remove previous category UI**
+                                // Swap out current category panel
                                 card.clearChildren()
-
                                 CategoryUIBuilder().build(card, config, category)
                             }
                         }
                     }
 
-                    // **Build initial category UI only once when the screen opens**
+                    // Initial render of first category when screen is created
                     if (!isInitialized) {
                         selectedCategory?.let { CategoryUIBuilder().build(card, config, it) }
                         isInitialized = true
@@ -138,13 +135,21 @@ class ConfigUIBuilder(private val config: Config) {
                 }
             }
 
+            /**
+             * Schedules the config UI to appear after one tick. Safe for use from any context.
+             */
             override fun show() {
                 TickScheduler.schedule(1) {
                     MinecraftClient.getInstance().setScreen(screen)
                 }
             }
 
-            override fun hide() { /* Handle hiding logic */
+            /**
+             * Defines what happens when the config UI should close.
+             * Currently a placeholder—extend as needed.
+             */
+            override fun hide() {
+                /* Implement hide logic here if needed */
             }
         }
     }
