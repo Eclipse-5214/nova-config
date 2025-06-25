@@ -124,7 +124,7 @@ class StepSliderUIBuilder {
         }
 
         // Set initial
-        updateSliderPositionFromStep(slider.default)
+        updateSliderPositionFromStep(slider.value as Int)
 
         return container
     }

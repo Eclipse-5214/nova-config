@@ -63,4 +63,33 @@ data class Config(
             }
         }
     }
+
+    fun fromJson(json: JsonObject) {
+        for (category in categories) {
+            val categoryData = json[category.name]?.jsonObject ?: continue
+
+            for (element in category.elements) {
+                val id = element.id ?: continue
+                val jsonValue = categoryData[id] ?: continue
+
+                val newValue = when (val current = element.value) {
+                    is Boolean     -> jsonValue.jsonPrimitive.booleanOrNull
+                    is Int         -> jsonValue.jsonPrimitive.intOrNull
+                    is Float       -> jsonValue.jsonPrimitive.floatOrNull
+                    is Double      -> jsonValue.jsonPrimitive.doubleOrNull
+                    is String      -> jsonValue.jsonPrimitive.contentOrNull
+                    is RGBA        -> jsonValue.jsonPrimitive.contentOrNull?.let { RGBA.fromHex(it) }
+                    else -> {
+                        println("Skipping unsupported load type for '$id': ${current?.let { it::class.simpleName } ?: "null"}")
+                        null
+                    }
+                }
+
+                if (newValue != null) {
+                    element.value = newValue
+                    println("Restored $id = $newValue")
+                }
+            }
+        }
+    }
 }

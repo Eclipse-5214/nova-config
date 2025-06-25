@@ -19,6 +19,7 @@ class ConfigInstance(
     private var ui: ConfigUI? = null
 
     private fun buildIfNeeded() {
+        load()
         if (ui == null) ui = uiFactory(config)
     }
 
@@ -41,7 +42,6 @@ class ConfigInstance(
             target.parentFile?.mkdirs()
 
             val json = config.toJson()
-            println(json)
 
             val jsonOutput = Json {
                 prettyPrint = true
@@ -52,6 +52,23 @@ class ConfigInstance(
 
         } catch (e: Exception) {
             println("Failed to save config for '$modId': ${e.message}")
+            e.printStackTrace()
+        }
+    }
+
+    fun load() {
+        try {
+            val target = resolvedFile
+            if (!target.exists()) return
+
+            val jsonText = target.readText()
+            val loadedJson = Json.decodeFromString(JsonObject.serializer(), jsonText)
+
+            // Inject into config
+            config.fromJson(loadedJson)
+
+        } catch (e: Exception) {
+            println("Failed to load config for '$modId': ${e.message}")
             e.printStackTrace()
         }
     }

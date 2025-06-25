@@ -45,7 +45,7 @@ class TextInputUIBuilder {
             .setChildOf(container)
 
 
-        val inputText = UITextInput(input.placeholder, true)
+        val inputText = UITextInput(input.value as String, true)
             .constrain {
                 width = 94.pixels()
                 x = CenterConstraint()

@@ -117,7 +117,7 @@ class SliderUIBuilder {
         }
 
         // Set initial value
-        updateSliderPosition(((slider.default - sliderMin) / (sliderMax - sliderMin)) * sliderWidth)
+        updateSliderPosition((((slider.value as Float) - sliderMin) / (sliderMax - sliderMin)) * sliderWidth)
 
         return container
     }
