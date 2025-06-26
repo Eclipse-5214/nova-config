@@ -42,9 +42,33 @@
 
 <h2 align="center">⚙️ Installation</h2>
 
-Add NovaConfig as a dependency in your mod project. Gradle support coming soon™.
+Add the following to your `build.gradle.kts`:
 
-For now, clone and include NovaConfig as a module or use it as a dev bundle.
+```kotlin
+repositories {
+    maven {
+        name = "essentialMavenPublic"
+        url = uri("https://repo.essential.gg/public")
+    }
+    mavenCentral()
+    maven { url = uri("https://jitpack.io") }
+}
+
+dependencies {
+    // NovaConfig
+    modImplementation("com.github.Eclipse-5214:nova-config:1.0.1")
+}
+```
+
+And in your `fabric.mod.json`:
+
+```json
+"depends": {
+  "nova-config": "*"
+}
+```
+
+> 💡 You can pin to a specific version instead of `*` if needed. JitPack supports exact tags and commit hashes.
 
 ---
 
