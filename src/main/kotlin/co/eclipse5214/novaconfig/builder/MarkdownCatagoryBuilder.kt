@@ -8,6 +8,6 @@ class MarkdownCatagoryBuilder(private val name: String, private val path: String
 
     fun build(): ConfigCategory {
         elements += ConfigElement(id = null)
-        return ConfigCategory(name, elements, true)
+        return ConfigCategory(name, elements, true, path)
     }
 }

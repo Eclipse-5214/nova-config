@@ -122,14 +122,20 @@ class ConfigUIBuilder(private val config: Config) {
 
                                 // Swap out current category panel
                                 card.clearChildren()
-                                CategoryUIBuilder().build(card, config, category)
+
+                                if (category.isMarkdown) MarkdownCategoryBuilder().build(card, category)
+                                else CategoryUIBuilder().build(card, config, category)
                             }
                         }
                     }
 
                     // Initial render of first category when screen is created
                     if (!isInitialized) {
-                        selectedCategory?.let { CategoryUIBuilder().build(card, config, it) }
+                        selectedCategory?.let {
+                            if (it.isMarkdown) MarkdownCategoryBuilder().build(card, it)
+                            else CategoryUIBuilder().build(card, config, it)
+                        }
+
                         isInitialized = true
                     }
                 }

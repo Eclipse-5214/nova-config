@@ -1,6 +1,7 @@
 package co.eclipse5214.novaconfig.example
 
 import co.eclipse5214.novaconfig.NovaApi
+import co.eclipse5214.novaconfig.utils.FileUtils
 import co.eclipse5214.novaconfig.utils.chatutils
 
 val myConfig = NovaApi.createConfig("example", "nova-config") {
@@ -101,4 +102,6 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
             default = 2
         }
     }
+
+    markdowncatagory("Tutorial", FileUtils.loadMarkdown("example.md"))
 }
