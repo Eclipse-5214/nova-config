@@ -20,6 +20,11 @@ class ConfigBuilder(val name: String) {
         categories += builtCategory
     }
 
+    fun markdowncatagory(name: String, path: String){
+        val buildCategory = MarkdownCatagoryBuilder(name, path).build()
+        categories += buildCategory
+    }
+
     fun build(): Config {
         return Config(name, categories)
     }

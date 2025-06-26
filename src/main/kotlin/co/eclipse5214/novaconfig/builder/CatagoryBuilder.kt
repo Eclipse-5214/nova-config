@@ -67,6 +67,6 @@ class CategoryBuilder(private val name: String) {
     }
 
     fun build(): ConfigCategory {
-        return ConfigCategory(name, elements)
+        return ConfigCategory(name, elements, false)
     }
 }
