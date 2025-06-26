@@ -35,8 +35,8 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
 	// Elementa
-	implementation("gg.essential:elementa:$elementa_version")
-	modImplementation("gg.essential:universalcraft-1.21.5-fabric:$uc_version")
+	implementation(include("gg.essential:elementa:$elementa_version"))
+	modImplementation(include("gg.essential:universalcraft-1.21.5-fabric:$uc_version"))
 }
 
 processResources {
