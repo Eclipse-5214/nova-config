@@ -2,7 +2,7 @@ package co.stellarskys.novaconfig.builder.elements
 
 import co.stellarskys.novaconfig.builder.ElementBuilder
 import co.stellarskys.novaconfig.model.elements.ColorPicker
-import co.stellarskys.novaconfig.model.elements.RGBA
+import co.stellarskys.novaconfig.RGBA
 
 /**
  * DSL builder for creating a color picker element within a NovaConfig category.

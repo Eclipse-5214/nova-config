@@ -1,6 +1,6 @@
 package co.stellarskys.novaconfig.model
 
-import co.stellarskys.novaconfig.model.elements.RGBA
+import co.stellarskys.novaconfig.RGBA
 import co.stellarskys.novaconfig.model.elements.Toggle
 import kotlinx.serialization.json.*
 
