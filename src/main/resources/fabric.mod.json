@@ -1,15 +1,15 @@
 {
 	"schemaVersion": 1,
 	"id": "nova-config",
-	"version": "${version}",
+	"version": "1.0.0",
 	"name": "Nova config",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "This is a library for creating config uis",
 	"authors": [
-		"Me!"
+		"Eclipse5214 / NEXD_"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://nova.stellarskys.co/",
+		"sources": "https://github.com/Eclipse-5214/nova-config/"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/nova-config/icon.png",
