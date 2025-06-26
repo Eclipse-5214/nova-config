@@ -1,8 +1,5 @@
->[!TIP]
->NovaConfig is the easiest way to build Minecraft mod configs—DSL-based, hot-reloadable, and ✨gorgeous✨
-
 <p align="center">
-  <img alt="Nova logo" src="https://i.imgur.com/5zIy0zf.png" />
+  <img alt="Nova logo" src="https://i.imgur.com/y0YX8WC.png" />
 </p>
 
 ***
