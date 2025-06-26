@@ -71,6 +71,21 @@ val config = NovaApi.createConfig("example", "yourmodid") {
 
 for a full example look in the example folder
 
+<h2 align="center">🧩 Accessing Config Values</h2>
+
+Once a config is registered using NovaApi.createConfig(...), you can retrieve values like so:
+
+```kotlin
+val config = NovaApi["example"]
+val isEnabled = config as Boolean ?: false
+val themeColor = (config as RGBA).getColor("themeColor") ?: rgba(255, 255, 255, 255)
+```
+
+- you have to specify the type using `as`
+
+> You can also listen for changes if you're implementing reactive behavior!
+
+
 ---
 
 <h2 align="center">🙌 Credits</h2>
