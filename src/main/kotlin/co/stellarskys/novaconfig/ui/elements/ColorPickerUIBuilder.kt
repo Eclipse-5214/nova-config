@@ -34,10 +34,11 @@ class ColorPickerUIBuilder {
             }
             .setChildOf(wrapper)
 
-        val desc = UIText("§7" + colorpicker.description)
+        val desc = UIWrappedText("§7" + colorpicker.description)
             .constrain {
-                x = PixelConstraint(7f) // Ensures description is left-aligned too
+                x = PixelConstraint(7f)
                 y = PixelConstraint(17f)
+                width = 230.pixels()
             }
             .setChildOf(wrapper)
 
@@ -122,10 +123,11 @@ class ColorPickerUIBuilder {
             }
             .setChildOf(wrapper)
 
-        val desc = UIText("§7" + colorpicker.description)
+        val desc = UIWrappedText("§7" + colorpicker.description)
             .constrain {
-                x = PixelConstraint(7f) // Ensures description is left-aligned too
+                x = PixelConstraint(7f)
                 y = PixelConstraint(17f)
+                width = 230.pixels()
             }
             .setChildOf(wrapper)
 

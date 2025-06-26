@@ -102,10 +102,11 @@ class ConfigUIBuilder(private val config: Config) {
                             .setChildOf(buttonBG)
 
                         // Category label text
-                        val label = UIText(category.name)
+                        val label = UIWrappedText(category.name)
                             .constrain {
                                 x = CenterConstraint()
                                 y = CenterConstraint()
+                                width = 96.pixels()
                             }
                             .setColor(if (selectedCategory == category) NovaPalette.Mauve else Color.WHITE)
                             .setChildOf(button)

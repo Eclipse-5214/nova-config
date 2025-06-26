@@ -27,10 +27,11 @@ class StepSliderUIBuilder {
             }
             .setChildOf(container)
 
-        val desc = UIText("§7" + slider.description)
+        val desc = UIWrappedText("§7" + slider.description)
             .constrain {
                 x = PixelConstraint(7f)
                 y = PixelConstraint(17f)
+                width = 230.pixels()
             }
             .setChildOf(container)
 

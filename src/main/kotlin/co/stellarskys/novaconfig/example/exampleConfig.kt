@@ -19,9 +19,9 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
             configName = "title"
             name = "§dNova Config Example :D"
             description = "§bWelcome to the Nova Config example config!\n" +
-                    "§bNova Config has many wonderful features and this example config is " +
-                    "§bdesigned to show them off!\n" +
-                    "§bMade with <3 by NEXD_"
+                          "§bNova Config has many wonderful features and this\n " +
+                          "§bexample config is designed to show them off!\n" +
+                          "§bMade with <3 by NEXD_"
         }
 
         // Button to open the official website in the default browser
@@ -94,7 +94,7 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
             name = "§dGeneral Settings"
             description = "Welcome to general settings for configuring general settings\n" +
                     "This is a really long line of text to show off text wrapping. " +
-                    "Btw, the last line was split with a \\n. The FitnessGram Pacer Test... [etc.]"
+                    "Btw, the last line was split with a \\n. The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds"
         }
 
         // Boolean toggle with a default value of true

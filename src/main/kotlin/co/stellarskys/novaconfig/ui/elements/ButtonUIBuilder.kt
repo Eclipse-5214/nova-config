@@ -28,10 +28,11 @@ class ButtonUIBuilder {
             }
             .setChildOf(container)
 
-        val desc = UIText("§7" + button.description)
+        val desc = UIWrappedText("§7" + button.description)
             .constrain {
-                x = PixelConstraint(7f) // Ensures description is left-aligned too
+                x = PixelConstraint(7f)
                 y = PixelConstraint(17f)
+                width = 230.pixels()
             }
             .setChildOf(container)
 

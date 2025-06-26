@@ -30,7 +30,7 @@ class SubcategoryUIBuilder {
         val SubcategoryRoot = UIRoundedRectangle(6f)
             .constrain {
                 width = 425.pixels()
-                height = 1.pixels()
+                height = 15.pixels()
                 x = CenterConstraint()
                 y = SiblingConstraint()
             }
@@ -66,6 +66,6 @@ class SubcategoryUIBuilder {
             .setTextScale(1.2f.pixels())
             .setChildOf(SubcategoryUnderline)
 
-        return SubcategoryUnderline
+        return SubcategoryRoot
     }
 }

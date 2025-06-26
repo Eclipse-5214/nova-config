@@ -46,16 +46,13 @@ class TextParagraphUIBuilder {
             .setChildOf(textParagraphContainer)
 
         // Split description into lines manually (assuming ~50 char per line)
-        val wrappedLines = wrapText(textParagraph.description, 75)
-
-        wrappedLines.forEachIndexed { index, line ->
-            UIText("§7$line")
-                .constrain {
-                    x = CenterConstraint()
-                    y = PixelConstraint(22f + (index * 12)) // Spacing between lines
-                }
-                .setChildOf(textParagraphContainer)
-        }
+        val description = UIWrappedText(textParagraph.description, centered = true)
+            .constrain {
+                x = CenterConstraint()
+                y = PixelConstraint(22f)
+                width = 400.pixels()
+            }
+            .setChildOf(textParagraphContainer)
 
         return textParagraphContainer
     }

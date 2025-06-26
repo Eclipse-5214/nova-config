@@ -27,10 +27,11 @@ class TextInputUIBuilder {
             }
             .setChildOf(container)
 
-        val desc = UIText("§7" + input.description)
+        val desc = UIWrappedText("§7" + input.description)
             .constrain {
                 x = PixelConstraint(7f)
                 y = PixelConstraint(17f)
+                width = 230.pixels()
             }
             .setChildOf(container)
 

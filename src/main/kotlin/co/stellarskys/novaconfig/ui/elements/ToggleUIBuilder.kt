@@ -47,10 +47,11 @@ class ToggleUIBuilder {
             }
             .setChildOf(toggleContainer)
 
-        val toggleDesc = UIText("§7" + toggle.description)
+        val toggleDesc = UIWrappedText("§7" + toggle.description)
             .constrain {
-                x = PixelConstraint(7f) // Ensures description is left-aligned too
+                x = PixelConstraint(7f)
                 y = PixelConstraint(17f)
+                width = 230.pixels()
             }
             .setChildOf(toggleContainer)
 

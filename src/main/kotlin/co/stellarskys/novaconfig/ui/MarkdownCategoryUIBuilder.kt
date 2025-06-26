@@ -27,7 +27,7 @@ class MarkdownCategoryUIBuilder {
             }
             .setChildOf(root)
 
-        val markdown = MarkdownComponent(category.path ?: "[Missing path]")
+        val markdown = MarkdownComponent(category.markdown ?: "[Missing path]")
             .constrain {
                 width = RelativeConstraint(1f)
                 height = RelativeConstraint(1f)
