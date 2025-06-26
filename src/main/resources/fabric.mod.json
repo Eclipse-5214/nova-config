@@ -17,7 +17,7 @@
 	"entrypoints": {
 		"client": [
 			{
-				"value": "co.eclipse5214.novaconfig.NovaConfig",
+				"value": "co.stellarskys.novaconfig.NovaConfig",
 				"adapter": "kotlin"
 			}
 		]
