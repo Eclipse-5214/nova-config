@@ -3,6 +3,7 @@ package co.stellarskys.novaconfig.example
 import co.stellarskys.novaconfig.NovaApi
 import co.stellarskys.novaconfig.utils.FileUtils
 import co.stellarskys.novaconfig.utils.chatutils
+import net.minecraft.util.Util
 import java.awt.Desktop
 import java.net.URI
 
@@ -30,16 +31,8 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
             name = "Website"
             description = "Link to the Nova Config website"
             onclick {
-                try {
-                    val uri = URI("https://nova.stellarskys.co")
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().browse(uri)
-                    } else {
-                        chatutils.clientMsg("§d[Nova] §bWebsite: $uri", false)
-                    }
-                } catch (e: Exception) {
-                    println("Failed to open website: ${e.message}")
-                }
+                val uri = URI("https://nova.stellarskys.co")
+                Util.getOperatingSystem().open(uri)
             }
         }
 
@@ -49,16 +42,8 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
             name = "Docs"
             description = "Link to the Nova Config docs"
             onclick {
-                try {
-                    val uri = URI("https://nova.stellarskys.co/docs")
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().browse(uri)
-                    } else {
-                        chatutils.clientMsg("§d[Nova] §bDocs: $uri", false)
-                    }
-                } catch (e: Exception) {
-                    println("Failed to open website: ${e.message}")
-                }
+                val uri = URI("https://nova.stellarskys.co/docs")
+                Util.getOperatingSystem().open(uri)
             }
         }
 
@@ -68,16 +53,8 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
             name = "Github"
             description = "Link to the Nova Config GitHub / source code"
             onclick {
-                try {
-                    val uri = URI("https://github.com/Eclipse-5214/nova-config")
-                    if (Desktop.isDesktopSupported()) {
-                        Desktop.getDesktop().browse(uri)
-                    } else {
-                        chatutils.clientMsg("§d[Nova] §Github: $uri", false)
-                    }
-                } catch (e: Exception) {
-                    println("Failed to open website: ${e.message}")
-                }
+                val uri = URI("https://github.com/Eclipse-5214/nova-config")
+                Util.getOperatingSystem().open(uri)
             }
         }
     }
@@ -97,6 +74,7 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
                     "Btw, the last line was split with a \\n. The FitnessGram Pacer Test is a multistage aerobic capacity test that progressively gets more difficult as it continues. The 20 meter pacer test will begin in 30 seconds"
         }
 
+        subcategory("Inputs")
         // Boolean toggle with a default value of true
         toggle {
             configName = "do_something"
@@ -163,6 +141,7 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
             options = listOf("option 1", "option 2", "option 3", "option 4")
         }
 
+        subcategory("Sliders")
         // Slider between 5 and 10
         slider {
             configName = "slider"

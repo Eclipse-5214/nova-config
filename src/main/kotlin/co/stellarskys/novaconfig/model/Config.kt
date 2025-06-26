@@ -24,13 +24,8 @@ data class Config(
     }
 
     fun toJson(): JsonObject {
-        println("All categories:")
-        categories.forEach { println("- ${it.name}") }
-
         return buildJsonObject {
             categories.forEach { category ->
-                println("Processing category: ${category.name}")
-
                 val categoryValues = buildJsonObject {
                     category.elements.forEach { element ->
                         val id = element.id
@@ -85,10 +80,7 @@ data class Config(
                     }
                 }
 
-                if (newValue != null) {
-                    element.value = newValue
-                    println("Restored $id = $newValue")
-                }
+                if (newValue != null) element.value = newValue
             }
         }
     }

@@ -102,7 +102,7 @@ class ConfigUIBuilder(private val config: Config) {
                             .setChildOf(buttonBG)
 
                         // Category label text
-                        val label = UIWrappedText(category.name)
+                        val label = UIWrappedText(category.name, centered = true)
                             .constrain {
                                 x = CenterConstraint()
                                 y = CenterConstraint()
