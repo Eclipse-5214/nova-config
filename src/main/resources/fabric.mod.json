@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "nova-config",
-	"version": "1.0.0",
+	"version": "${version}",
 	"name": "Nova config",
 	"description": "This is a library for creating config uis",
 	"authors": [
