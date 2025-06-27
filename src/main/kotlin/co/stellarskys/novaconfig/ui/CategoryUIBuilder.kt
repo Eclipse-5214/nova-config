@@ -101,7 +101,7 @@ class CategoryUIBuilder {
                 is Subcategory  -> SubcategoryUIBuilder().build(root, element)
                 is TextInput    -> TextInputUIBuilder().build(root, element)
                 is TextParagraph-> TextParagraphUIBuilder().build(root, element)
-                is Toggle       -> ToggleUIBuilder().build(root, element) {
+                is Toggle       -> ToggleUIBuilder().build(root,element, config) {
                     // Re-render nested elements when toggle state changes
                     drawElements(root, config, category, index + 1)
                 }

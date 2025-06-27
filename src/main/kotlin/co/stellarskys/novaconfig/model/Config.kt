@@ -84,4 +84,14 @@ data class Config(
             }
         }
     }
+
+    private val listeners = mutableListOf<(configName: String, value: Any?) -> Unit>()
+
+    fun registerListener(callback: (configName: String, value: Any?) -> Unit) {
+        listeners += callback
+    }
+
+    fun notifyListeners(configName: String, newValue: Any?) {
+        listeners.forEach { it(configName, newValue) }
+    }
 }

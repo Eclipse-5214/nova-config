@@ -1,5 +1,6 @@
 package co.stellarskys.novaconfig.ui.elements
 
+import co.stellarskys.novaconfig.model.Config
 import co.stellarskys.novaconfig.model.elements.Toggle
 import co.stellarskys.novaconfig.ui.NovaPalette
 import gg.essential.elementa.UIComponent
@@ -29,7 +30,7 @@ class ToggleUIBuilder {
      * @return A fully constructed UIComponent representing the toggle.
      */
 
-    fun build(root: UIComponent, toggle: Toggle, refresh: () -> Unit): UIComponent {
+    fun build(root: UIComponent, toggle: Toggle, config: Config, refresh: () -> Unit): UIComponent {
         val toggleContainer = UIRoundedRectangle(6f)
             .constrain {
                 width = 425.pixels()
@@ -99,6 +100,8 @@ class ToggleUIBuilder {
                     (if (toggle.value as Boolean) NovaPalette.Mauve else NovaPalette.Surface2).toConstraint()
                 )
             }
+
+            config.notifyListeners(toggle.id ?: toggle.configName, toggle.value)
 
             refresh()
         }

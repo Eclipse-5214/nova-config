@@ -73,6 +73,16 @@ class ConfigInstance(
         }
     }
 
+    fun getConfig(): Config {
+        return config
+    }
+
+    inline fun <reified T> getConfigValue(ID: String): T? {
+        return config.categories
+            .flatMap { it.elements }
+            .find { it.id == ID }
+            ?.value as T
+    }
 
     operator fun get(key: String): Any? =
         config.categories
