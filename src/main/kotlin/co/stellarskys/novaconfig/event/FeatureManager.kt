@@ -8,7 +8,7 @@ class FeatureManager internal constructor(
     private val features = mutableListOf<Feature>()
 
     init {
-
+        attachListener()
     }
 
 
@@ -20,12 +20,11 @@ class FeatureManager internal constructor(
 
     private fun attachListener() {
         config.registerListener { configName, value ->
-
+            features.forEach { feature ->
+                if (feature.configID == configName && value is Boolean) {
+                    feature.enabled = value
+                }
+            }
         }
     }
-
-    fun hookRenderEvents() {
-        EventB
-    }
-
 }

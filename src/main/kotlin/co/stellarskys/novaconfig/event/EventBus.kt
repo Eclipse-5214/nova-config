@@ -1,27 +1,22 @@
 package co.stellarskys.novaconfig.event
 
 object EventBus {
-    private val events = mutableMapOf<String, Event<Any>>()
+    private val listeners = mutableMapOf<String, MutableList<(Any?) -> Unit>>()
 
-    fun <T : Any> createEvent(
-        name: String,
-        setup: (Event<T>.() -> Unit)? = null
-    ): Event<T> {
-        val event = Event<T>()
-        events[name] = event as Event<Any>
-        setup?.invoke(event)
-        return event
+    fun <T : Any> on(name: String, cb: Callback<T>) {
+        val list = listeners.getOrPut(name) { mutableListOf() }
+        list += cb as (Any?) -> Unit
     }
 
-    @Suppress("UNCHECKED_CAST")
-    fun <T : Any> getEvent(name: String): Event<T>? {
-        return events[name] as? Event<T>
+    fun <T : Any> remove(name: String, cb: Callback<T>) {
+        listeners[name]?.remove(cb as (Any?) -> Unit)
     }
 
-    @Suppress("UNCHECKED_CAST")
-    fun <T> register(eventName: String, callback: (T) -> Unit) {
-        val event = events[eventName] as? Event<T>
-            ?: error("No event registered with name '$eventName'")
-        event.register(callback)
+    fun post(name: String, arg: Any?) {
+        listeners[name]?.forEach { it(arg) }
+    }
+
+    fun create(name: String) {
+        if (name !in listeners) listeners[name] = mutableListOf()
     }
 }

@@ -1,39 +1,27 @@
 package co.stellarskys.novaconfig.event
 
-class Feature (val configID: String){
-    private var enabled = false
-    private val boundListeners = mutableListOf<() -> Unit>()
-
-    fun setEnabled(boolean: Boolean) {
-        enabled = boolean
-    }
+class Feature(val configID: String) {
+    var enabled = false
+    val boundListeners = mutableListOf<Event<*>>() // track listener objects
 
     fun isEnabled(): Boolean = enabled
 
     /**
-     * Registers a callback to a named event, and automatically tracks it for unregistration
+     * Registers a named event. Will auto-register/unregister when feature toggles.
      */
-    fun <T : Any> register(eventName: String, callback: (T) -> Unit) {
-        val event = EventBus.getEvent<T>(eventName)
-            ?: error("Event '$eventName' does not exist")
-
-        event.register(callback)
-
-        boundListeners += {
-            event.unregister(callback)
-        }
-
-        // Optionally call immediately if already enabled
-        if (enabled) callback as? ((Any) -> Unit) // No fire, just readiness
+    inline fun <reified T : Any> on(eventName: String, noinline callback: (T) -> Unit) {
+        val listener = Event(eventName, callback = callback)
+        if (enabled) listener.register()
+        boundListeners += listener
     }
 
     internal fun _register() {
         println("✅ [Feature] Enabled: $configID")
-        // Hook into events or tick logic
+        boundListeners.forEach { it.register() }
     }
 
     internal fun _unregister() {
         println("❌ [Feature] Disabled: $configID")
-        // Clean up or unregister logic
+        boundListeners.forEach { it.unregister() }
     }
 }
