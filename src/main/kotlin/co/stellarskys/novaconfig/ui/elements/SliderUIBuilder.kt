@@ -6,6 +6,7 @@ import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.*
 import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import java.text.DecimalFormat
 
@@ -84,7 +85,13 @@ class SliderUIBuilder {
             val percent = clamped / sliderWidth
             val value = sliderMin + (sliderMax - sliderMin) * percent
             slider.value = value
-            knob.setX(PixelConstraint(270f + clamped - 5f))
+            knob.animate {
+                setXAnimation(
+                    Animations.OUT_CUBIC,
+                    0.2f,
+                    PixelConstraint(270f + clamped - 5f) // Moves knob accordingly
+                )
+            }
             (valueInput as UITextInput).setText(DecimalFormat("#.#").format(value))
         }
 

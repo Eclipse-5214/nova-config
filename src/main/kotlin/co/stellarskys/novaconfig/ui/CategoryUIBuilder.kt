@@ -40,6 +40,17 @@ class CategoryUIBuilder {
      * @param category The specific category whose UI elements should be rendered into the container.
      */
     fun build(root: UIComponent, config: Config, category: ConfigCategory) {
+        val settings = object : Map<String, Any?> {
+            override fun get(key: String): Any? = category.elements.find { it.id == key }?.value
+            override val entries get() = emptySet<Map.Entry<String, Any?>>()
+            override val keys get() = emptySet<String>()
+            override val values get() = emptyList<Any?>()
+            override val size get() = 0
+            override fun isEmpty() = false
+            override fun containsKey(key: String) = true
+            override fun containsValue(value: Any?) = false
+        }
+
         val catagoryContainer = ScrollComponent()
             .constrain {
                 width = 450.pixels()
@@ -50,6 +61,10 @@ class CategoryUIBuilder {
             .setChildOf(root)
 
         drawElements(catagoryContainer, config, category)
+
+        config.registerListener { _, _ ->
+            updateElementVisibility(settings, category)
+        }
     }
 
     // Tracks rendered UI elements and their original index to support partial redraw
@@ -68,14 +83,7 @@ class CategoryUIBuilder {
      * @param category The specific ConfigCategory whose elements are to be rendered.
      * @param startingIndex Optional index in the element list to begin drawing from; defaults to 0 for full layout.
      */
-    private fun drawElements(root: UIComponent, config: Config, category: ConfigCategory, startingIndex: Int = 0) {
-
-        // Remove all components rendered after the starting index to prep for partial redraw
-        val toRemove = rendered.dropWhile { it.first < startingIndex }
-        toRemove.forEach { it.second.parent.removeChild(it.second) }
-        rendered.removeAll(toRemove)
-
-        // Dummy settings map used to evaluate element visibility via shouldShow
+    private fun drawElements(root: UIComponent, config: Config, category: ConfigCategory) {
         val settings = object : Map<String, Any?> {
             override fun get(key: String): Any? = category.elements.find { it.id == key }?.value
             override val entries get() = emptySet<Map.Entry<String, Any?>>()
@@ -87,37 +95,42 @@ class CategoryUIBuilder {
             override fun containsValue(value: Any?) = false
         }
 
-        // Iterate and render each visible UI element in the category
-        category.elements.forEachIndexed { index, element ->
-            if (index < startingIndex || !element.shouldShow(settings)) return@forEachIndexed
+        // If not yet rendered, build all components
+        if (rendered.isEmpty()) {
+            category.elements.forEachIndexed { index, element ->
+                val component = when (element) {
+                    is Button -> ButtonUIBuilder().build(root, element)
+                    is ColorPicker -> ColorPickerUIBuilder().build(root, element)
+                    is Dropdown -> DropdownUIBuilder().build(root, element)
+                    is Keybind -> KeybindUIBuilder().build(root, element)
+                    is Slider -> SliderUIBuilder().build(root, element)
+                    is StepSlider -> StepSliderUIBuilder().build(root, element)
+                    is Subcategory -> SubcategoryUIBuilder().build(root, element)
+                    is TextInput -> TextInputUIBuilder().build(root, element)
+                    is TextParagraph -> TextParagraphUIBuilder().build(root, element)
+                    is Toggle -> ToggleUIBuilder().build(root, element, config)
 
-            val component = when (element) {
-                is Button       -> ButtonUIBuilder().build(root, element)
-                is ColorPicker  -> ColorPickerUIBuilder().build(root, element)
-                is Dropdown     -> DropdownUIBuilder().build(root, element)
-                is Keybind      -> KeybindUIBuilder().build(root, element)
-                is Slider       -> SliderUIBuilder().build(root, element)
-                is StepSlider   -> StepSliderUIBuilder().build(root, element)
-                is Subcategory  -> SubcategoryUIBuilder().build(root, element)
-                is TextInput    -> TextInputUIBuilder().build(root, element)
-                is TextParagraph-> TextParagraphUIBuilder().build(root, element)
-                is Toggle       -> ToggleUIBuilder().build(root,element, config) {
-                    // Re-render nested elements when toggle state changes
-                    drawElements(root, config, category, index + 1)
+                    else -> null
                 }
-                else -> null // Unknown element type
-            }
 
-            // Position each component vertically in stack
-            component?.constrain {
-                x = CenterConstraint()
-                y = SiblingConstraint(5f)
-            }
+                component?.constrain {
+                    x = CenterConstraint()
+                    y = SiblingConstraint(5f)
+                }
 
-            // Track rendered component for future redraw
-            component?.let {
-                rendered.add(index to it)
+                component?.let { rendered.add(index to it) }
             }
+        }
+
+        // Update visibility of rendered components based on current settings
+        updateElementVisibility(settings,category)
+    }
+
+    private fun updateElementVisibility(settings: Map<String, Any?>, category: ConfigCategory) {
+        rendered.forEachIndexed { index, (elementIndex, component) ->
+            val element = category.elements[elementIndex]
+            if(element.shouldShow(settings)) component.unhide()
+            else component.hide()
         }
     }
 }

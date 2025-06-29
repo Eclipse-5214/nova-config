@@ -6,6 +6,7 @@ import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.*
 import gg.essential.elementa.components.input.UITextInput
 import gg.essential.elementa.constraints.*
+import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 
 class StepSliderUIBuilder {
@@ -90,7 +91,15 @@ class StepSliderUIBuilder {
             val knobX = 270f + percent * sliderWidth - 5f
 
             slider.value = clamped
-            knob.setX(PixelConstraint(knobX))
+            
+            knob.animate {
+                setXAnimation(
+                    Animations.OUT_CUBIC,
+                    0.2f,
+                    PixelConstraint(knobX) // Moves knob accordingly
+                )
+            }
+
             (valueInput as UITextInput).setText(clamped.toString())
         }
 

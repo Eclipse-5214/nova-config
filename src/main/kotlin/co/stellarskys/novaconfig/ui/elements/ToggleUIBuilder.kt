@@ -30,7 +30,7 @@ class ToggleUIBuilder {
      * @return A fully constructed UIComponent representing the toggle.
      */
 
-    fun build(root: UIComponent, toggle: Toggle, config: Config, refresh: () -> Unit): UIComponent {
+    fun build(root: UIComponent, toggle: Toggle, config: Config): UIComponent {
         val toggleContainer = UIRoundedRectangle(6f)
             .constrain {
                 width = 425.pixels()
@@ -102,8 +102,6 @@ class ToggleUIBuilder {
             }
 
             config.notifyListeners(toggle.id ?: toggle.configName, toggle.value)
-
-            refresh()
         }
 
         return toggleContainer
