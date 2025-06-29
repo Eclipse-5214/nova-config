@@ -39,9 +39,5 @@ object NovaConfig : ClientModInitializer {
 
 		// load default events
 		DefaultEvents
-
-		Event("world_render"){ cbx : WorldRenderContext ->
-			println("hello from custom event")
-		}.register()
 	}
 }
