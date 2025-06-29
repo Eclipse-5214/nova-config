@@ -53,6 +53,15 @@ data class RGBA(val r: Int, val g: Int, val b: Int, val a: Int = 255) {
         return floatArrayOf(hsv[0], hsv[1], hsv[2], a / 255f)
     }
 
+    /**
+     * Converts this RGBA color to a packed ARGB Int.
+     *
+     * @return An Int representing the color in 0xAARRGGBB format.
+     */
+    fun toColorInt(): Int {
+        return (a shl 24) or (r shl 16) or (g shl 8) or b
+    }
+
     companion object {
 
         /**
