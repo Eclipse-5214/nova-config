@@ -1,7 +1,7 @@
 package co.stellarskys.novaconfig.ui.elements
 
-import co.stellarskys.novaconfig.model.Config
-import co.stellarskys.novaconfig.model.elements.Toggle
+import co.stellarskys.novaconfig.core.Config
+import co.stellarskys.novaconfig.core.Toggle
 import co.stellarskys.novaconfig.ui.NovaPalette
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.*
@@ -26,7 +26,6 @@ class ToggleUIBuilder {
      *
      * @param root The UIComponent to attach the toggle container to.
      * @param toggle The Toggle data model representing the option.
-     * @param refresh A lambda that will be invoked after the toggle is clicked, typically triggering a partial UI redraw.
      * @return A fully constructed UIComponent representing the toggle.
      */
 
@@ -101,7 +100,7 @@ class ToggleUIBuilder {
                 )
             }
 
-            config.notifyListeners(toggle.id ?: toggle.configName, toggle.value)
+            config.notifyListeners(toggle.configName, toggle.value)
         }
 
         return toggleContainer

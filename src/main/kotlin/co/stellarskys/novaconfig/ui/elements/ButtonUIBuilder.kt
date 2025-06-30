@@ -1,6 +1,6 @@
 package co.stellarskys.novaconfig.ui.elements
 
-import co.stellarskys.novaconfig.model.elements.Button
+import co.stellarskys.novaconfig.core.Button
 import co.stellarskys.novaconfig.ui.NovaPalette
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.*

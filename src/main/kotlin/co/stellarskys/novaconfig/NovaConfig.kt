@@ -1,7 +1,5 @@
 package co.stellarskys.novaconfig
 
-import co.stellarskys.novaconfig.event.DefaultEvents
-import co.stellarskys.novaconfig.event.Event
 import com.mojang.brigadier.Command
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
@@ -9,9 +7,6 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import co.stellarskys.novaconfig.example.myConfig
 import co.stellarskys.novaconfig.utils.TickScheduler
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext
-
 
 object NovaConfig : ClientModInitializer {
 	override fun onInitializeClient() {
@@ -31,13 +26,5 @@ object NovaConfig : ClientModInitializer {
 				executes(cmd)
 			)
 		}
-
-		// save configs on game close
-		ClientLifecycleEvents.CLIENT_STOPPING.register { _ ->
-			NovaApi.saveAllConfigs()
-		}
-
-		// load default events
-		DefaultEvents
 	}
 }

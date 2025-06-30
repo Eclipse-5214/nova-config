@@ -1,17 +1,15 @@
 package co.stellarskys.novaconfig.example
 
-import co.stellarskys.novaconfig.NovaApi
+import co.stellarskys.novaconfig.core.Config
 import co.stellarskys.novaconfig.utils.FileUtils
 import co.stellarskys.novaconfig.utils.chatutils
 import net.minecraft.util.Util
-import java.awt.Desktop
 import java.net.URI
 
 // Main config definition for NovaConfig under the mod id "nova-config" named "example"
 // This also has an optional file path parameter for save locations
 // The default save location is .minecraft/config/$modId/settings.json
-val myConfig = NovaApi.createConfig("example", "nova-config") {
-
+val myConfig = Config("example", "nova-config") {
     // General category with branding, link buttons, and welcome message
     category("General") {
 
@@ -65,6 +63,7 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
         // Creates a subcategory (currently just visual/semantic)
         subcategory("General")
 
+
         // Another paragraph for showcasing long-form wrapped text
         textparagraph {
             configName = "GeneralTitle"
@@ -92,7 +91,7 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
             description = "This is a normal toggle (Trust)"
             default = false
 
-            shouldShow { it["do_something"] }
+            shouldShow { settings -> settings["do_something"] as Boolean }
         }
 
         // RGBA Color picker with default white
@@ -164,72 +163,9 @@ val myConfig = NovaApi.createConfig("example", "nova-config") {
         }
     }
 
-    category( "Msc."){
-        subcategory("Block Overlay")
-
-        toggle {
-            configName = "overlayEnabled"
-            name = "Render Block Overlay"
-            description = "Highlights the block you are looking at"
-        }
-
-        colorpicker {
-            configName = "blockHighlightColor"
-            name = "Block Highlight Color"
-            description = "The color to highlight blocks"
-            default = rgba(0, 255, 255, 255)
-            shouldShow { it["overlayEnabled"] == true }
-        }
-
-        toggle {
-            configName = "fillBlockOverlay"
-            name = "Fill blocks"
-            description = "Fills the blocks with the color"
-            shouldShow { it["overlayEnabled"] == true }
-        }
-
-        colorpicker {
-            configName = "blockFillColor"
-            name = "Block Fill Color"
-            description = "The color to fill blocks"
-            default = rgba(0, 255, 255, 30)
-            shouldShow { it["overlayEnabled"] == true && it["fillBlockOverlay"] == true }
-        }
-
-        toggle {
-            configName = "chromaHighlight"
-            name = "Chroma overlay"
-            description = "Makes the outline chroma"
-            shouldShow { it["overlayEnabled"] == true }
-        }
-
-        stepslider {
-            configName = "chromaOverlaySpeed"
-            name = "Chroma Speed"
-            description = "The speed of the chroma effect"
-            min = 1
-            max = 10
-            step = 1
-            default = 1
-            shouldShow {
-                it["overlayEnabled"] == true && it["chromaHighlight"] == true
-            }
-        }
-
-        stepslider {
-            configName = "overlayLineWidth"
-            name = "Line width"
-            description = "Line width for the outline"
-            min = 1
-            max = 5
-            step = 1
-            default = 3
-            shouldShow { it["overlayEnabled"] == true }
-        }
-    }
-
     // Custom markdown category rendered from a file using the FileUtils internal helper function (this can be literal text too)
-    markdowncatagory(
+
+    markdowncategory(
         name = "Tutorial",
         markdown = FileUtils.loadMarkdown("example.md")
     )

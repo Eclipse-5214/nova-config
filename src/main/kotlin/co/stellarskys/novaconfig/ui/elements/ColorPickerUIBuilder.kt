@@ -1,6 +1,6 @@
 package co.stellarskys.novaconfig.ui.elements
 
-import co.stellarskys.novaconfig.model.elements.ColorPicker
+import co.stellarskys.novaconfig.core.ColorPicker
 import co.stellarskys.novaconfig.RGBA
 import co.stellarskys.novaconfig.ui.NovaPalette
 import gg.essential.elementa.UIComponent
