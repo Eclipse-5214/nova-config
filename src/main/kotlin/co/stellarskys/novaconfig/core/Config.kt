@@ -386,6 +386,19 @@ class Config(
         }
     }
 
+    private fun ensureLoaded() {
+        if (!loaded) {
+            load()
+            loaded = true
+        }
+    }
+
+    // get functions
+    operator fun get(key: String): Any {
+        return flattenValues()[key]
+            ?: error("No config entry found for key '$key'")
+    }
+
     inline operator fun <reified T> Config.get(key: String): T {
         val value = flattenValues()[key]
             ?: error("No config entry found for key '$key'")
@@ -400,12 +413,5 @@ class Config(
 
         return value as? T
             ?: error("Config value for '$key' is not of type ${T::class.simpleName}")
-    }
-
-    private fun ensureLoaded() {
-        if (!loaded) {
-            load()
-            loaded = true
-        }
     }
 }
