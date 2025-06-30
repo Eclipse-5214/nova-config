@@ -68,7 +68,7 @@ class CategoryUIBuilder {
     }
 
     // Tracks rendered UI elements and their original index to support partial redraw
-    private val rendered = mutableListOf<Pair<Int, UIComponent>>()
+    private val elementContainers = mutableMapOf<String, UIComponent>()
 
     /**
      * Renders visible configuration elements into the given UI root.
@@ -84,6 +84,37 @@ class CategoryUIBuilder {
      * @param startingIndex Optional index in the element list to begin drawing from; defaults to 0 for full layout.
      */
     private fun drawElements(root: UIComponent, config: Config, category: ConfigCategory) {
+
+
+        category.elements.forEachIndexed { index, element ->
+            val component = when (element) {
+                is Button -> ButtonUIBuilder().build(root, element)
+                is ColorPicker -> ColorPickerUIBuilder().build(root, element)
+                is Dropdown -> DropdownUIBuilder().build(root, element)
+                is Keybind -> KeybindUIBuilder().build(root, element)
+                is Slider -> SliderUIBuilder().build(root, element)
+                is StepSlider -> StepSliderUIBuilder().build(root, element)
+                is Subcategory -> SubcategoryUIBuilder().build(root, element)
+                is TextInput -> TextInputUIBuilder().build(root, element)
+                is TextParagraph -> TextParagraphUIBuilder().build(root, element)
+                is Toggle -> ToggleUIBuilder().build(root, element, config)
+
+                else -> null
+            }
+
+            component!!.constrain {
+                x = CenterConstraint()
+                y = SiblingConstraint(5f)
+            }
+
+            elementContainers[element.id?: "Null (Probably a subcategory)"] = component
+        }
+
+        // Update visibility of rendered components based on current settings
+        updateElementVisibility(settings,category)
+    }
+
+    private fun updateElementVisibility(category: ConfigCategory) {
         val settings = object : Map<String, Any?> {
             override fun get(key: String): Any? = category.elements.find { it.id == key }?.value
             override val entries get() = emptySet<Map.Entry<String, Any?>>()
@@ -95,41 +126,9 @@ class CategoryUIBuilder {
             override fun containsValue(value: Any?) = false
         }
 
-        // If not yet rendered, build all components
-        if (rendered.isEmpty()) {
-            category.elements.forEachIndexed { index, element ->
-                val component = when (element) {
-                    is Button -> ButtonUIBuilder().build(root, element)
-                    is ColorPicker -> ColorPickerUIBuilder().build(root, element)
-                    is Dropdown -> DropdownUIBuilder().build(root, element)
-                    is Keybind -> KeybindUIBuilder().build(root, element)
-                    is Slider -> SliderUIBuilder().build(root, element)
-                    is StepSlider -> StepSliderUIBuilder().build(root, element)
-                    is Subcategory -> SubcategoryUIBuilder().build(root, element)
-                    is TextInput -> TextInputUIBuilder().build(root, element)
-                    is TextParagraph -> TextParagraphUIBuilder().build(root, element)
-                    is Toggle -> ToggleUIBuilder().build(root, element, config)
-
-                    else -> null
-                }
-
-                component?.constrain {
-                    x = CenterConstraint()
-                    y = SiblingConstraint(5f)
-                }
-
-                component?.let { rendered.add(index to it) }
-            }
-        }
-
-        // Update visibility of rendered components based on current settings
-        updateElementVisibility(settings,category)
-    }
-
-    private fun updateElementVisibility(settings: Map<String, Any?>, category: ConfigCategory) {
-        rendered.forEachIndexed { index, (elementIndex, component) ->
-            val element = category.elements[elementIndex]
-            if(element.shouldShow(settings)) component.unhide()
+        rendered.forEach { (index, component) ->
+            val element = category.elements.getOrNull(index)
+            if (element != null && element.shouldShow(settings)) component.unhide()
             else component.hide()
         }
     }

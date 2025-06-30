@@ -32,8 +32,6 @@ data class Config(
                         val value = element.value
 
                         if (id != null && value != null) {
-                            println("$id, $value")
-
                             val jsonValue = when (value) {
                                 is Boolean -> JsonPrimitive(value)
                                 is Int -> JsonPrimitive(value)

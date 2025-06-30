@@ -18,9 +18,18 @@ class ConfigInstance(
 
     private var ui: ConfigUI? = null
 
+    private var loaded = false
+
+    fun ensureLoaded() {
+        if (!loaded) {
+            load()
+            loaded = true
+        }
+    }
+
     private fun buildIfNeeded() {
-        load()
         if (ui == null) ui = uiFactory(config)
+        ensureLoaded()
     }
 
     fun open() {
@@ -57,6 +66,7 @@ class ConfigInstance(
     }
 
     fun load() {
+        println("[Nova] load ran")
         try {
             val target = resolvedFile
             if (!target.exists()) return
@@ -74,15 +84,18 @@ class ConfigInstance(
     }
 
     inline fun <reified T> getConfigValue(ID: String): T? {
+        ensureLoaded()
         return config.categories
             .flatMap { it.elements }
             .find { it.id == ID }
             ?.value as T
     }
 
-    operator fun get(key: String): Any? =
-        config.categories
+    operator fun get(key: String): Any? {
+        ensureLoaded()
+        return config.categories
             .flatMap { it.elements }
             .find { it.id == key }
             ?.value
+    }
 }
