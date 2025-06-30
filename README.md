@@ -75,7 +75,7 @@ And in your `fabric.mod.json`:
 <h2 align="center">📦 Example Usage</h2>
 
 ```kotlin
-val config = NovaApi.createConfig("example", "yourmodid") {
+val config = Config("example", "yourmodid") {
     category("General") {
         toggle {
             configName = "enabled"
