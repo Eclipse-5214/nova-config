@@ -159,6 +159,8 @@ class Config(
                     else buildCategory(card, selectedCategory!!)
                 }
             }
+
+            override fun shouldPause(): Boolean = false
         }
     }
 
