@@ -386,7 +386,7 @@ class Config(
         }
     }
 
-    private fun ensureLoaded() {
+    fun ensureLoaded() {
         if (!loaded) {
             load()
             loaded = true
@@ -395,11 +395,13 @@ class Config(
 
     // get functions
     operator fun get(key: String): Any {
+        ensureLoaded()
         return flattenValues()[key]
             ?: error("No config entry found for key '$key'")
     }
 
     inline operator fun <reified T> Config.get(key: String): T {
+        ensureLoaded()
         val value = flattenValues()[key]
             ?: error("No config entry found for key '$key'")
 
@@ -408,6 +410,7 @@ class Config(
     }
 
     inline fun <reified T> getValue(key: String): T {
+        ensureLoaded()
         val value = flattenValues()[key]
             ?: error("Missing config value for '$key'")
 
